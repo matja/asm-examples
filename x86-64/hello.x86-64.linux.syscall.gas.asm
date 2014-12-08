@@ -1,3 +1,12 @@
+/*
+Output "Hello world!" to standard output.
+For x86-64 architecture with GNU assembler, using Linux syscalls.
+
+Assemble with :
+as --64 -o hello.o hello.x86-64.linux.syscall.gas.asm &&
+ld -melf_x86_64 -o hello hello.o
+*/
+
 .globl _start
 .section .text
 
