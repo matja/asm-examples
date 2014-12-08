@@ -1,3 +1,12 @@
+/*
+Output "Hello world!" to standard output.
+For DEC Alpha EV4 architecture with GNU assembler, using Linux syscalls.
+
+Assemble with :
+as -o hello.o hello.alpha.linux.syscall.gas.asm &&
+ld -o hello hello.o
+*/
+
 .arch ev4
 .set noreorder
 .set nomacro
@@ -9,9 +18,9 @@
 $message:
 	.ascii "Hello world!\0"
 
-/* code section, align to 2^2 (4) bytes (size of instruction) */
+/* code section, align to 4 bytes (size of instruction) */
 .section .text
-.align 2
+.balign 4
 .globl _start
 
 _start:	
