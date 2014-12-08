@@ -1,19 +1,17 @@
-
 .globl _start
 .section .text
 
 _start:
-	mov $1,%rax
-	mov $1,%rdi
-	mov message,%rsi
-	mov $13,%rdx
-	syscall
+	mov $1, %rax      /* syscall 1 - write */
+	mov $1, %rdi      /* fd - stdout */
+	lea message, %rsi /* pointer to message */
+	mov $13, %rdx     /* size */
+	syscall           /* do syscall */
 
-	mov $60,%rax
-	xor %rdi,%rdi
-	syscall
+	mov $60, %rax     /* syscall 60 - exit */
+	xor %rdi, %rdi    /* exit code - 0 */
+	syscall           /* do syscall */
 
 .section .rodata
 message:
 	.ascii "Hello world!\x0a"
-
