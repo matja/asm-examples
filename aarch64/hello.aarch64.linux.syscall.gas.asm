@@ -3,7 +3,7 @@ Output "Hello world!" to standard output.
 For Aarch64 (ARM64) architecture with GNU assembler, using Linux syscalls.
 
 Assemble with :
-as --64 -o hello.o hello.aarch64.linux.syscall.gas.asm &&
+as -o hello.o hello.aarch64.linux.syscall.gas.asm &&
 ld -o hello hello.o
 */
 
