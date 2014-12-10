@@ -1,0 +1,36 @@
+Aarch64 overview
+
+32x 64-bit registers : x0..x31
+
+Bottom 32-bits of registers are w0..w31 (like rax/eax in x86-64)
+
+x0..x7   : arguments and return value
+x8       : indirect result (struct) location
+x9..x15  : temporary registers
+x16..x17 : intra-call-user registers (PLT, linker)
+x18      : platform specific use (TLS)
+x19-x28  : callee-saved registers
+x29      : frame pointer
+x30(lr)  : link register
+x31(sp)  : stack pointer / read zero
+
+32x 32-bit single precision float registers : s0..s31
+32x 64-bit double precision float registers : d0..d31
+32x 128-bit SIMD registers : v0..v31
+
+s0..s31 is the bottom 32-bits of d0..d31
+d0..d31 is the bottom 64-bits of v0..v31
+
+v0..v7   : arguments and return value
+d8..d15  : callee saved registers
+v16..v31 : temporary registers
+bits 64..127 not saved on v8-v15
+
+Memory is weakly ordered - writes can occur in any order, use barriers:
+dmb
+dsb
+isb
+
+Instruction aliases :
+
+ret = ret x30 (subroutine return hint)

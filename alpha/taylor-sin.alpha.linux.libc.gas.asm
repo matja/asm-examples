@@ -145,10 +145,10 @@ mult  $f4, $f16, $f4
 divt  $f4, $f3, $f5      /* divide power by factorial */
 
 blbc  $2, taylor_odd
-addt  $f0, $f5, $f0      /* add odd terms */
+addt  $f0, $f5, $f0      /* add even terms */
 br    taylor_next
 taylor_odd:
-subt  $f0, $f5, $f0      /* subtract even terms */
+subt  $f0, $f5, $f0      /* subtract odd terms */
 taylor_next:
 
 addl  $2, 1, $2          /* increment term index */
