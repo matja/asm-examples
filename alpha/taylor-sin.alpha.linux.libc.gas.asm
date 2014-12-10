@@ -1,5 +1,5 @@
 /*
-Calculate the Taylor serious approximation of sin(x), using values specified
+Calculate the Taylor series approximation of sin(x), using values specified
 on the command line.
 
 For DEC Alpha EV4 architecture with GNU assembler, using libc functions.
