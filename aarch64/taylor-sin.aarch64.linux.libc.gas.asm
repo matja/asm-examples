@@ -35,7 +35,7 @@ main:
 	ldr   x1, [x29, 16]
 	ldr   x0, [x1, 8]
 	bl    atof
-	str   d0, [x29, 24] /* save for later */
+	str   d0, [x29, 24]      /* save for later */
 
 /* convert argv[2] (iteration count) to integer */
 	ldr   x1, [x29, 16]
@@ -43,7 +43,7 @@ main:
 	bl    atoi
 
 /* calculate taylor sine approximation */
-	ldr   d0, [x29, 24] /* get saved float(argv[1]) */
+	ldr   d0, [x29, 24]      /* get saved float(argv[1]) */
 	mov   x1, x0
 	bl    taylor_sin
 
@@ -89,39 +89,39 @@ used:
 	stp   x29, x30, [sp, -16]! /* setup stack frame */
 	mov   x29, sp
 
-	fadd  d6, d0, d31       /* copy x */
-	fadd  d0, d31, d31      /* start with zero sum */
+	fadd  d6, d0, d31        /* copy x */
+	fadd  d0, d31, d31       /* start with zero sum */
 
 	adrp  x1, d_const_1	
 	add   x1, x1, :lo12:d_const_1
 	ldr   d1, [x1]
-	fadd  d2, d1, d31       /* start with factorial index 1 */
-	fadd  d3, d1, d31       /* start with factorial 1 */
-	fadd  d4, d6, d31       /* start with term x */
+	fadd  d2, d1, d31        /* start with factorial index 1 */
+	fadd  d3, d1, d31        /* start with factorial 1 */
+	fadd  d4, d6, d31        /* start with term x */
 
 	/* first term */
-	fdiv  d5, d4, d3        /* x^n / n! -> f5 */
-	fadd  d0, d5, d0        /* accumulate result into f0 */
+	fdiv  d5, d4, d3         /* x^n / n! -> f5 */
+	fadd  d0, d5, d0         /* accumulate result into f0 */
 
-	mov   x1, 0             /* zero term index */
+	mov   x1, 0              /* zero term index */
 
-taylor_loop:                /* loop through each term */
-	fadd  d2, d2, d1        /* calculate next odd factorial */
+taylor_loop:                 /* loop through each term */
+	fadd  d2, d2, d1         /* calculate next odd factorial */
 	fmul  d3, d2, d3
 	fadd  d2, d2, d1
 	fmul  d3, d2, d3
 
-	fmul  d4, d4, d6        /* calculate next odd power of x */
+	fmul  d4, d4, d6         /* calculate next odd power of x */
 	fmul  d4, d4, d6 
 
-	fdiv  d5, d4, d3        /* divide power by factorial */
+	fdiv  d5, d4, d3         /* divide power by factorial */
 
 	tbz   x1, 0, taylor_odd
-	fadd  d0, d0, d5        /* add even terms */
+	fadd  d0, d0, d5         /* add even terms */
 	b     taylor_next
 
 taylor_odd:
-	fsub  d0, d0, d5        /* subtract odd terms */
+	fsub  d0, d0, d5         /* subtract odd terms */
 
 taylor_next:
 	add   x1, x1, 1          /* increment term index */
