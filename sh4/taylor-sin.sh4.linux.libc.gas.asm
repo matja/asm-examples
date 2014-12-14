@@ -42,7 +42,7 @@ main$no_error:
 	add   #8, r5
 	mov.l @r5, r4
 	mov.l atoi_ptr, r0
-	jsr	  @r0                /* call atoi */
+	jsr   @r0                /* call atoi */
 	nop                      /* branch delay slot */
 
 	mov   r0, r4             /* get atoi(argv[2]) */
@@ -61,7 +61,7 @@ main$no_error:
 	jsr   @r0
 	nop                      /* branch delay slot */
 
-	mov	  #0, r0             /* exit code 0 - success */
+	mov   #0, r0             /* exit code 0 - success */
 	bra   main$done
 	nop                      /* branch delay slot */
 
@@ -73,7 +73,7 @@ main$error:
 	mov   #1, r0
 
 main$done:
-	add   #16, r15            /* restore stack */
+	add   #16, r15           /* restore stack */
 	lds.l @r15+, pr	
 	rts
 	nop                      /* branch delay slot */
