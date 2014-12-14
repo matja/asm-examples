@@ -2,7 +2,7 @@
 Output "Hello world!" to standard output.
 For SH4 architecture with GNU assembler, using Linux syscalls.
 Assemble with :
-as -o hello.o hello.sh4-64.linux.syscall.gas.asm &&
+as -o hello.o hello.sh4.linux.syscall.gas.asm &&
 ld -o hello hello.o
 */
 
@@ -18,7 +18,7 @@ _start:
 	trapa #17
 
 	mov #1, r3
-	mov #42, r4
+	xor r4, r4
 	trapa #17
 
 .balign 4
@@ -28,4 +28,4 @@ message_ptr:
 .section .rodata
 .balign 4
 message:
-	.asciz "Hello world!\n"
+	.ascii "Hello world!\n"
