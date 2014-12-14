@@ -5,8 +5,8 @@ on the command line.
 For DEC Alpha EV4 architecture with GNU assembler, using libc functions.
 
 Assemble with :
-as -o hello.o hello.alpha.linux.libc.gas.asm &&
-gcc -o hello hello.o
+as -o taylor-sin.o taylor-sin.alpha.linux.libc.gas.asm &&
+gcc -o taylor-sin taylor-sin.o
 
 Run with :
 ./taylor-sin 0.1 5
@@ -162,3 +162,4 @@ ret
 error_message: .asciz "syntax: <x> <terms>"
 format:        .asciz "%0.10f\n"
 f_const_1:     .double 1.0
+

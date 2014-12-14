@@ -2,8 +2,8 @@
 Output "Hello world!" to standard output.
 For SH4 architecture with GNU assembler, using libc functions.
 Assemble with :
-as -o hello.o hello.sh4.linux.syscall.gas.asm &&
-ld -o hello hello.o
+as -o hello.o hello.sh4.linux.libc.gas.asm &&
+gcc -o hello hello.o
 */
 
 .section .text
