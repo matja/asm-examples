@@ -233,6 +233,7 @@ which might have seperate opcodes on other architectures.
 | clr                | bis   $31,$31,$x    |
 | fclr               | cpys  $f31,$f31,$fx |
 | unop               | ldq_u $31,0($x)     |
+| sextl  $x,$y       | addl  $31,$x,$y     |
 | mov    #lit8,$y    | bis   $31,lit8,$y   |
 | mov    $x,$y       | bis   $x,$x,$y      |
 | negl   $x,$y       | subl  $31,$x,$y     |
@@ -290,13 +291,13 @@ General Format
 	</tr>
 	<tr>
 		<td>opcode</td>
-		<td>FRa</td>
-		<td>FRb</td>
+		<td>Fa</td>
+		<td>Fb</td>
 		<td>type</td>
 		<td colspan="2">round</td>
 		<td>size</td>
 		<td>function</td>
-		<td>FRc</td>
+		<td>Fc</td>
 		<td>Floating-point operation</td>
 	</tr>
 	<tr>
@@ -309,170 +310,891 @@ General Format
 		<td>opcode</td>
 		<td>Ra</td>
 		<td>Rb</td>
-		<td colspan=6">displacement</td>
+		<td colspan="6">displacement</td>
 		<td>Register-relative branch</td>
 	</tr>
 </table>
 
-Specific Opcodes
+Instructions
 ----------------
 
-33222222222211111111110000000000
-10987654321098765432109876543210
---------------------------------
-000000iiiiiiiiiiiiiiiiiiiiiiiiii call_pal imm
-000001?????????????????????????? opc01
-000010?????????????????????????? opc02
-000011?????????????????????????? opc03
-000100?????????????????????????? opc04
-000101?????????????????????????? opc05
-000110?????????????????????????? opc06
-000111?????????????????????????? opc07
+<table>
+	<tr>
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td>11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Category</td>
+	</tr>
+	<tr>
+		<td>000000</td>
+		<td colspan="8">index</td>
+		<td>call_pal index</td>
+	</tr>
+	<tr>
+		<td>000001</td>
+		<td colspan="8">?</td>
+		<td>opc01</td>
+	</tr>
+	<tr>
+		<td>000010</td>
+		<td colspan="8">?</td>
+		<td>opc02</td>
+	</tr>
+	<tr>
+		<td>000011</td>
+		<td colspan="8">?</td>
+		<td>opc03</td>
+	</tr>
+	<tr>
+		<td>000100</td>
+		<td colspan="8">?</td>
+		<td>opc04</td>
+	</tr>
+	<tr>
+		<td>000101</td>
+		<td colspan="8">?</td>
+		<td>opc05</td>
+	</tr>
+	<tr>
+		<td>000110</td>
+		<td colspan="8">?</td>
+		<td>opc06</td>
+	</tr>
+	<tr>
+		<td>000111</td>
+		<td colspan="8">?</td>
+		<td>opc07</td>
+	</tr>	
+	<tr>
+		<td>001000</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>lda ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001001</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>ldah ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001010</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>ldbu ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001011</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>ldq_u ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001100</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>ldwu ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001101</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>stw ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001110</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>stb ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>001111</td>
+		<td>ra</td>
+		<td>rb</td>
+		<td colspan="6">disp</td>
+		<td>stq_u ra,disp(rb)</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>ra</td>
+		<td>00000</td>
+		<td>111</td>
+		<td colspan="5">0000000000000</td>
+		<td>rc ra</td>
+	</tr>	
+	<tr>
+		<td>010000</td>
+		<td>ra</td>
+		<td>00000</td>
+		<td>111</td>
+		<td colspan="5">1000000000000</td>
+		<td>rs ra</td>
+	</tr>			
+	<tr>
+		<td>010000</td>
+		<td>ra</td>
+		<td>11111</td>
+		<td>110</td>
+		<td colspan="5">0000000000000</td>
+		<td>rpcc ra</td>
+	</tr>
+	<tr>
+		<td colspan="10">Arithmetic group</td>
+	</tr>	
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>Rc</td>
+		<td>addl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0000010</td>
+		<td>Rc</td>
+		<td>s4addl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0001001</td>
+		<td>Rc</td>
+		<td>subl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0001011</td>
+		<td>Rc</td>
+		<td>s4subl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0001111</td>
+		<td>Rc</td>
+		<td>cmpbge ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0010010</td>
+		<td>Rc</td>
+		<td>s8addl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0011010</td>
+		<td>Rc</td>
+		<td>s8subl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0011101</td>
+		<td>Rc</td>
+		<td>cmpult ra,rb,rc</td>
+	</tr>
 
-001000aaaaabbbbboooooooooooooooo lda   ra,o(rb)
-001001aaaaabbbbboooooooooooooooo ldah  ra,o(rb)
-001010aaaaabbbbboooooooooooooooo ldbu  ra,o(rb)
-001011aaaaabbbbboooooooooooooooo ldq_u ra,o(rb)
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0100000</td>
+		<td>Rc</td>
+		<td>addq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0100010</td>
+		<td>Rc</td>
+		<td>s4addq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0101001</td>
+		<td>Rc</td>
+		<td>subq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0101011</td>
+		<td>Rc</td>
+		<td>s4subq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0101111</td>
+		<td>Rc</td>
+		<td>cmpeq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0110010</td>
+		<td>Rc</td>
+		<td>s8addq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0111010</td>
+		<td>Rc</td>
+		<td>s8subq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">0111101</td>
+		<td>Rc</td>
+		<td>cmpule ra,rb,rc</td>
+	</tr>
 
-001100aaaaabbbbboooooooooooooooo ldwu  ra,o(rb)
-001101aaaaabbbbboooooooooooooooo stw   ra,o(rb)
-001110aaaaabbbbboooooooooooooooo stb   ra,o(rb)
-001110aaaaabbbbboooooooooooooooo stq_u ra,o(rb)
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1000000</td>
+		<td>Rc</td>
+		<td>addl/v ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1001001</td>
+		<td>Rc</td>
+		<td>subl/v ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1001101</td>
+		<td>Rc</td>
+		<td>cmplt ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1100000</td>
+		<td>Rc</td>
+		<td>addq/v ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1101001</td>
+		<td>Rc</td>
+		<td>subq/v ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td>010000</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">1101101</td>
+		<td>Rc</td>
+		<td>cmple ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="10">Bitwise logic</td>
+	</tr>
+	<tr>
+		<td rowspan="16">010001</td>
+		<td rowspan="15">Ra</td>
+		<td rowspan="15">Rb</td>
+		<td rowspan="15">unused</td>
+		<td rowspan="15">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="16">Rc</td>
+		<td>and ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001000</td>
+		<td>bic ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010100</td>
+		<td>cmovlbs ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010110</td>
+		<td>cmovlbc ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100000</td>
+		<td>bis ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100100</td>
+		<td>cmoveq ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100110</td>
+		<td>cmovne ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101000</td>
+		<td>ornor ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000000</td>
+		<td>xor ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000100</td>
+		<td>cmovlt ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1000110</td>
+		<td>cmovge ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1001000</td>
+		<td>eqv ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100001</td>
+		<td>amask ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100100</td>
+		<td>cmovle ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100110</td>
+		<td>cmovgt ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>00000</td>
+		<td>001</td>
+		<td>1</td>
+		<td colspan="3">1101100</td>
+		<td>implver Rc</td>
+	</tr>	
+	<tr>
+		<td colspan="10">Mask/insert/extract group</td>
+	</tr>
+	<tr>
+		<td rowspan="26">010010</td>
+		<td rowspan="26">Ra</td>
+		<td rowspan="26">Rb</td>
+		<td rowspan="26">unused</td>
+		<td rowspan="26">0</td>
+		<td colspan="3">0000010</td>
+		<td rowspan="26">Rc</td>
+		<td>mskbl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0000110</td>
+		<td>extbl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001011</td>
+		<td>insbl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010010</td>
+		<td>mskwl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010110</td>
+		<td>extwl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0011011</td>
+		<td>inswl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100010</td>
+		<td>mskll ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100110</td>
+		<td>extll ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101011</td>
+		<td>insll ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0110000</td>
+		<td>zap ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0110001</td>
+		<td>zapnot ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0110010</td>
+		<td>mskql ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0110100</td>
+		<td>srl ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110110</td>
+		<td>extql ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0111001</td>
+		<td>sll ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111011</td>
+		<td>insql ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111100</td>
+		<td>sra ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1010010</td>
+		<td>mskwh ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1010111</td>
+		<td>inswh ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1011010</td>
+		<td>extwh ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100010</td>
+		<td>msklh ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100111</td>
+		<td>inslh ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1101010</td>
+		<td>extlh ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1110010</td>
+		<td>mskqh ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1110111</td>
+		<td>insqh ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1111010</td>
+		<td>extqh ra,rb,rc</td>
+	</tr>
 
-01000000000000001110000000000000 rc v0
-01000000000000001111000000000000 rs v0
-010000aaaaa111111100000000000000 rpcc ra
+	<tr>
+		<td colspan="10">Multiply group</td>
+	</tr>
 
-010000aaaaabbbbbuuu00000000ccccc addl   ra,rb,rc
-010000aaaaabbbbbuuu00000010ccccc s4addl ra,rb,rc
-010000aaaaabbbbbuuu00001001ccccc subl   ra,rb,rc
-010000aaaaabbbbbuuu00001011ccccc s4subl ra,rb,rc
-010000aaaaabbbbbuuu00001111ccccc cmpbge ra,rb,rc
-010000aaaaabbbbbuuu00010010ccccc s8addl ra,rb,rc
-010000aaaaabbbbbuuu00011011ccccc s8subl ra,rb,rc
-010000aaaaabbbbbuuu00011101ccccc cmpult ra,rb,rc
+	<tr>
+		<td rowspan="5">010011</td>
+		<td rowspan="5">Ra</td>
+		<td rowspan="5">Rb</td>
+		<td rowspan="5">unused</td>
+		<td rowspan="5">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="5">Rc</td>
+		<td>mull ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100000</td>
+		<td>mulq ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">0110000</td>
+		<td>umulh ra,rb,rc</td>
+	</tr>	
+	<tr>
+		<td colspan="3">1000000</td>
+		<td>mull/v ra,rb,rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100000</td>
+		<td>mulq/v ra,rb,rc</td>
+	</tr>
 
-010000aaaaabbbbbuuu00100000ccccc addq   ra,rb,rc
-010000aaaaabbbbbuuu00100010ccccc s4addq ra,rb,rc
-010000aaaaabbbbbuuu00101001ccccc subq   ra,rb,rc
-010000aaaaabbbbbuuu00101011ccccc s4subq ra,rb,rc
-010000aaaaabbbbbuuu00101111ccccc cmpeq  ra,rb,rc
-010000aaaaabbbbbuuu00110010ccccc s8addq ra,rb,rc
-010000aaaaabbbbbuuu00111011ccccc s8subq ra,rb,rc
-010000aaaaabbbbbuuu00111101ccccc cmpule ra,rb,rc
+	<tr>
+		<td colspan="10">
+			IEEE floating point group
 
-010000aaaaabbbbbuuu01000000ccccc addl/v ra,rb,rc
-010000aaaaabbbbbuuu01001001ccccc subl/v ra,rb,rc
-010000aaaaabbbbbuuu01001101ccccc cmplt  ra,rb,rc
-010000aaaaabbbbbuuu01100000ccccc addq/v ra,rb,rc
-010000aaaaabbbbbuuu01101001ccccc subq/v ra,rb,rc
-010000aaaaabbbbbuuu01101101ccccc cmple  ra,rb,rc
+			<table>
+				<tr>
+					<td>trap</td>
+					<td>Trapping mode</td>
+				</tr>
+				<tr>
+					<td>000</td>
+					<td>Imprecise (default)</td>
+				</tr>
+				<tr>
+					<td rowspan="2">001</td>
+					<td>Underflow enable (/u) (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>Overflow enable (/v)  (integer output)</td>
+				</tr>
+				<tr>
+					<td>010</td>
+					<td rowspan="2">Unsupported</td>		
+				</tr>
+				<tr>
+					<td>011</td>
+				</tr>
+				<tr>
+					<td>100</td>
+					<td>Software completion enable (/s)</td>
+				</tr>
+				<tr>
+					<td rowspan="2">101</td>
+					<td>/su (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>/sv (integer output)</td>
+				</tr>
+				<tr>
+					<td>110</td>
+					<td rowspan="2">Unsupported</td>
+				</tr>
+				<tr>
+					<td rowspan="2">111</td>
+				</tr>
+			</table>
 
-01000011111bbbbbuuu00000000ccccc sextl rb,rc
-01000011111bbbbbuuu00101001ccccc negq  rb,rc
+			<table>
+				<tr>
+					<td>round</td>
+					<td>Rounding mode</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>Chopped (/c)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>Unsupported</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>Normal (default)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Unsupported</td>
+				</tr>
+			</table>
+				
+			<table>
+				<tr>
+					<td>size</td>
+					<td>Data size</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>F_float (f)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>D_float (d)</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>G_float (g)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Q_fixed (q)</td>
+				</tr>
+			</table>		
+		</td>
+	</tr>
 
-010001aaaaabbbbbuuu00000000ccccc and     ra,rb,rc
-010001aaaaabbbbbuuu00001000ccccc bic     ra,rb,rc
-010001aaaaabbbbbuuu00010100ccccc cmovlbs ra,rb,rc
-010001aaaaabbbbbuuu00010110ccccc cmovlbc ra,rb,rc
-010001aaaaabbbbbuuu00100000ccccc bis     ra,rb,rc
-010001aaaaabbbbbuuu00100100ccccc cmoveq  ra,rb,rc
-010001aaaaabbbbbuuu00100110ccccc cmovne  ra,rb,rc
-010001aaaaabbbbbuuu00101000ccccc ornor   ra,rb,rc
-010001aaaaabbbbbuuu01000000ccccc xor     ra,rb,rc
-010001aaaaabbbbbuuu01000100ccccc cmovlt  ra,rb,rc
-010001aaaaabbbbbuuu01000110ccccc cmovge  ra,rb,rc
-010001aaaaabbbbbuuu01001000ccccc eqv     ra,rb,rc
-010001aaaaabbbbbuuu01100001ccccc amask   ra,rb,rc
-010001aaaaabbbbbuuu01100100ccccc cmovle  ra,rb,rc
-010001aaaaabbbbbuuu01100110ccccc cmovgt  ra,rb,rc
-010001111110000000111101100ccccc implver rc?
+	<tr>
+		<td>010100</td>
+		<td>111111</td>
+		<td>Fb</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size</td>
+		<td>1010</td>
+		<td>Fc</td>
+		<td>sqrt(size)(/round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td rowspan="16">010110</td>
+		<td rowspan="8">Fa</td>
+		<td rowspan="8">Fb</td>
+		<td rowspan="8">trap</td>
+		<td rowspan="8" colspan="2">round</td>
+		<td rowspan="8">size</td>
+		<td>0000</td>
+		<td rowspan="8">Fc</td>
+		<td>add(size)(/round+trap) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+		<td>sub(size)(/round+trap) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+		<td>mul(size)(/round+trap) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+		<td>div(size)(/round+trap) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0100</td>
+		<td>cmpxun(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0101</td>
+		<td>cmpxeq(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+		<td>cmpxlt(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+		<td>cmpxle(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td colspan="6" rowspan="4">-</td>
+		<td>1000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>1010</td>
+	</tr>
+	<tr>
+		<td>1011</td>
+	</tr>	
+	<tr>
+		<td rowspan="4">11111</td>
+		<td rowspan="4">Fb</td>
+		<td rowspan="4">trap</td>
+		<td rowspan="4" colspan="2">round</td>
+		<td rowspan="4">size</td>
+		<td>1100</td>
+		<td rowspan="4">Fc</td>
+		<td>cvt(size)f/(q1) Fa,Fb,Fc</td>
+	</tr>	
+	<tr>
+		<td>1101</td>
+		<td>cvt(size)d/(q1) Fa,Fb,Fc</td>
+	</tr>	
+	<tr>
+		<td>1110</td>
+		<td>cvt(size)g/(q1) Fa,Fb,Fc</td>
+	</tr>	
+	<tr>
+		<td>1111</td>
+		<td>cvt(size)q/(q1) Fa,Fb,Fc</td>
+	</tr>
 
-010010aaaaabbbbbuuu00000010ccccc mskbl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00000110ccccc extbl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00001011ccccc insbl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00010010ccccc mskwl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00010110ccccc extwl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00011011ccccc inswl  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00100010ccccc mskll  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00100110ccccc extll  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00101011ccccc insll  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00110000ccccc zap    ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00110001ccccc zapnot ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00110010ccccc mskql  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00110100ccccc srl    ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00110110ccccc extql  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00111001ccccc sll    ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00111011ccccc insql  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu00111100ccccc sra    ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01010010ccccc mskwh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01010111ccccc inswh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01011010ccccc extwh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01100010ccccc msklh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01100111ccccc inslh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01101010ccccc extlh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01110010ccccc mskqh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01110111ccccc insqh  ra,rb,rc (int,lit)
-010010aaaaabbbbbuuu01111010ccccc extqh  ra,rb,rc (int,lit)
+	<tr>
+		<td colspan="10">
+			VAX floating point group
 
-010011aaaaabbbbbuuu00000000ccccc mull   ra,rb,rc (int,lit)
-010011aaaaabbbbbuuu00100000ccccc mulq   ra,rb,rc (int,lit)
-010011aaaaabbbbbuuu00110000ccccc umulh  ra,rb,rc (int,lit)
-010011aaaaabbbbbuuu01000000ccccc mull/v ra,rb,rc (int,lit)
-010011aaaaabbbbbuuu01100000ccccc mulq/v ra,rb,rc (int,lit)
+			<table>
+				<tr>
+					<td>trap</td>
+					<td>Trapping mode</td>
+				</tr>
+				<tr>
+					<td>000</td>
+					<td>Imprecise (default)</td>
+				</tr>
+				<tr>
+					<td rowspan="2">001</td>
+					<td>Underflow enable (/u) (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>Overflow enable (/v)  (integer output)</td>
+				</tr>
+				<tr>
+					<td>010</td>
+					<td rowspan="3">Unsupported</td>		
+				</tr>
+				<tr>
+					<td>011</td>
+				</tr>
+				<tr>
+					<td>100</td>
+				</tr>
+				<tr>
+					<td rowspan="2">101</td>
+					<td>/su (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>/sv (integer output)</td>
+				</tr>
+				<tr>
+					<td>110</td>
+					<td>Unsupported</td>
+				</tr>
+				<tr>
+					<td rowspan="2">111</td>
+					<td>/sui (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>/svi (integer output)</td>
+				</tr>
+			</table>
 
-010100aaaaabbbbbuuu00000100ccccc itofs (regs?)
-010100aaaaabbbbbuuu00001010ccccc sqrtf/c (regs?)
-010100aaaaabbbbbuuu00001011ccccc sqrts/c (regs?)
-010100aaaaabbbbbuuu00101010ccccc sqrtg/c (regs?)
-010100aaaaabbbbbuuu00101011ccccc sqrtt/c (regs?)
-010100aaaaabbbbbuuu01001011ccccc sqrts/m (regs?)
-010100aaaaabbbbbuuu01101011ccccc sqrtt/m (regs?)
-010100aaaaabbbbbuuu10001010ccccc sqrtf   (regs?)
-010100aaaaabbbbbuuu10001011ccccc sqrts   (regs?)
-010100aaaaabbbbbuuu10101010ccccc sqrtg   (regs?)
-010100aaaaabbbbbuuu10101011ccccc sqrtt   (regs?)
-010100aaaaabbbbbuuu10101010ccccc sqrtg   (regs?)
-010100aaaaabbbbbuuu10101011ccccc sqrtt   (regs?)
+			<table>
+				<tr>
+					<td>round</td>
+					<td>Rounding mode</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>Chopped (/c)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>Minus infinity (/m)</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>Normal (default)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Dynamic (/d)</td>
+				</tr>
+			</table>
+				
+			<table>
+				<tr>
+					<td>size</td>
+					<td>Data size</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>S_float (s)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>Reserved</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>T_float (t)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Q_fixed</td>
+				</tr>
+			</table>		
+		</td>
+	</tr>
+
+	<tr>
+		<td>010100</td>
+		<td>111111</td>
+		<td>Fb</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size</td>
+		<td>1011</td>
+		<td>Fc</td>
+		<td>sqrt(size)(/round+trap) Fb,Fc</td>
+	</tr>
 
 
-010100aaaaabbbbbuuu00001011ccccc sqrts (regs?)
-010100aaaaabbbbbuuu00010100ccccc itoff (regs?)
-010100aaaaabbbbbuuu00100100ccccc itoft (regs?)
-010100aaaaabbbbbuuu00101010ccccc sqrtg (regs?)
-010100aaaaabbbbbuuu00101011ccccc sqrtt (regs?)
 
-VAX floating point
-------------------
 
-ttt trapping mode
---- -------------
-000 Imprecise (default)
-001 Underflow enable (/u) floating-point output
-    Overflow enable (/v)  integer output
-010 Unsupported
-011 Unsupported
-100 Unsupported
-101 /su floating-point output
-    /sv integer output
-110 Unsupported
-111 /sui floating-point output
-    /svi integer output
-
-rr rounding mode
--- -------------
-00 chopped (/c)
-01 minus infinity (/m)
-10 normal (default)
-11 dynamic (/d)
-
-ss source datatype
--- ---------------
-00 S_float
-01 Reserved
-10 T_float
-11 Q_fixed
-
+VAX
 010101aaaaabbbbbtttrrss0000ccccc add(s)/q1 fa,fb,fc
 010101aaaaabbbbbtttrrss0001ccccc sub(s)/q1 fa,fb,fc
 010101aaaaabbbbbtttrrss0010ccccc mul(s)/q1 fa,fb,fc
@@ -485,57 +1207,102 @@ ss source datatype
 010101_________________1001_____ reserved
 010101_________________1010_____ reserved
 010101_________________1011_____ reserved
-01010111111bbbbbtttrrss1100ccccc cvt(s)s/q1 fb,fc
-010101_________________1101_____ reserved
-01010111111bbbbbtttrrss1110ccccc cvt(s)t/q1 fb,fc
-01010111111bbbbbtttrrss1111ccccc cvt(s)q/q1 fb,fc
 
-IEEE floating point
--------------------
 
-ttt trapping mode
---- -------------
-000 Imprecise (default)
-001 Underflow enable (/u) floating-point output
-    Overflow enable (/v)  integer output
-010 Unsupported
-011 Unsupported
-100 Software completion enable (/s)
-101 /su floating-point output
-    /sv integer output
-110 Unsupported
-111 Unsupported
 
-rr rounding mode
--- -------------
-00 chopped (/c)
-01 Unsupported
-10 normal (default)
-11 Unsupported
 
-ss source datatype
--- ---------------
-00 F_float
-01 D_float
-10 G_float
-11 Q_fixed
+	<tr>
+		<td rowspan="16">010101</td>
+		<td rowspan="8">Fa</td>
+		<td rowspan="8">Fb</td>
+		<td rowspan="8">trap</td>
+		<td rowspan="8" colspan="2">round</td>
+		<td rowspan="8">size</td>
+		<td>0000</td>
+		<td rowspan="8">Fc</td>
+		<td>add(size)(/q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+		<td>sub(size)(/q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+		<td>mul(size)(/q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+		<td>div(size)(/q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0100</td>
+		<td>cmpxun(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0101</td>
+		<td>cmpxeq(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+		<td>cmpxlt(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+		<td>cmpxle(size)/(q1) Fa,Fb,Fc</td>
+	</tr>
+	<tr>
+		<td colspan="6" rowspan="4">-</td>
+		<td>1000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>1010</td>
+	</tr>
+	<tr>
+		<td>1011</td>
+	</tr>	
+	<tr>
+		<td>11111</td>
+		<td>Fb</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size</td>
+		<td>1100</td>
+		<td>Fc</td>
+		<td>cvt(size)s/(q1) Fa,Fb,Fc</td>
+	</tr>	
+	<tr>
+		<td colspan="6">-</td>
+		<td>1101</td>
+		<td>-</td>
+		<td>reserved</td>
+	</tr>	
+	<tr>
+		<td rowspan="2">11111</td>
+		<td rowspan="2">Fb</td>
+		<td rowspan="2">trap</td>
+		<td rowspan="2" colspan="2">round</td>
+		<td rowspan="2">size</td>
+		<td>1110</td>
+		<td rowspan="2">Fc</td>
+		<td>cvt(size)t/(q1) Fa,Fb,Fc</td>
+	</tr>	
+	<tr>
+		<td>1111</td>
+		<td>cvt(size)q/(q1) Fa,Fb,Fc</td>
+	</tr>
+</table>
 
-010110aaaaabbbbbtttrrss0000ccccc add(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0001ccccc sub(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0010ccccc mul(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0011ccccc div(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0100ccccc cmpxun(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0101ccccc cmpxeq(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0110ccccc cmpxlt(s)/q1 fa,fb,fc
-010110aaaaabbbbbtttrrss0111ccccc cmpxle(s)/q1 fa,fb,fc
-010110_________________1000_____ reserved
-010110_________________1001_____ reserved
-010110_________________1010_____ reserved
-010110_________________1011_____ reserved
-01011011111bbbbbtttrrss1100ccccc cvt(s)f/q1 fb,fc
-01011011111bbbbbtttrrss1101ccccc cvt(s)d/q1 fb,fc
-01011011111bbbbbtttrrss1110ccccc cvt(s)g/q1 fb,fc
-01011011111bbbbbtttrrss1111ccccc cvt(s)q/q1 fb,fc
+
+010100aaaaabbbbbuuu00000100ccccc itofs (regs?)
+010100aaaaabbbbbuuu00010100ccccc itoff (regs?)
+010100aaaaabbbbbuuu00100100ccccc itoft (regs?)
+
+
 
 01010111111 aaaaa q____ ss0001 fb___ neg(s=f/g)/q3 fa,fb
 
