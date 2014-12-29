@@ -6,153 +6,170 @@ operating system rather than the hardware specification.
 
 The following is the OSF/1 (UNIX) convention :
 
-| #  | name   | description           | preserved across procedure calls |
-| -- | ------ | --------------------- | -------------------------------- |
-|  0 | v0     | function result       | no                               |
-|  1 | t0     | temporary             | no                               |
-|  2 | t1     | "                     | no                               |
-|  3 | t2     | "                     | no                               |
-|  4 | t3     | "                     | no                               |
-|  5 | t4     | "                     | no                               |
-|  6 | t5     | "                     | no                               |
-|  7 | t6     | "                     | no                               |
-|  8 | t7     | "                     | no                               |
-|  9 | s0     | saved                 | yes                              |
-| 10 | s1     | "                     | yes                              |
-| 11 | s2     | "                     | yes                              |
-| 12 | s3     | "                     | yes                              |
-| 13 | s4     | "                     | yes                              |
-| 14 | s5     | "                     | yes                              |
-| 15 | fp/s6  | frame pointer / saved | ? / yes                          |
-| 16 | a0     | function arguments    | no                               |
-| 17 | a1     | "                     | no                               |
-| 18 | a2     | "                     | no                               |
-| 19 | a3     | "                     | no                               |
-| 20 | a4     | "                     | no                               |
-| 21 | a5     | "                     | no                               |
-| 22 | t8     | temporary             | no                               |
-| 23 | t9     | "                     | no                               |
-| 24 | t10    | "                     | no                               |
-| 25 | t11    | "                     | no                               |
-| 26 | ra     | return address        | yes                              |
-| 27 | pv/t12 | procedure value       | no                               |
-| 28 | at     | assembler temporary   | no                               |
-| 29 | gp     | global pointer        | no                               |
-| 30 | sp     | stack pointer         | yes                              |
-| 31 | zero   | always zero           | n/a                              |
-
+|Register|Name |Description          |Preserved across procedure calls|
+|--------|-----|---------------------|--------------------------------|
+|       0|v0   |Function result      |No                              |
+|       1|t0   |Temporary            |No                              |
+|       2|t1   |"                    |No                              |
+|       3|t2   |"                    |No                              |
+|       4|t3   |"                    |No                              |
+|       5|t4   |"                    |No                              |
+|       6|t5   |"                    |No                              |
+|       7|t6   |"                    |No                              |
+|       8|t7   |"                    |No                              |
+|       9|s0   |Saved                |Yes                             |
+|      10|s1   |"                    |Yes                             |
+|      11|s2   |"                    |Yes                             |
+|      12|s3   |"                    |Yes                             |
+|      13|s4   |"                    |Yes                             |
+|      14|s5   |"                    |Yes                             |
+|      15|fp/s6|Frame pointer / saved|? / Yes                         |
+|      16|a0   |Function arguments   |No                              |
+|      17|a1   |"                    |No                              |
+|      18|a2   |"                    |No                              |
+|      19|a3   |"                    |No                              |
+|      20|a4   |"                    |No                              |
+|      21|a5   |"                    |No                              |
+|      22|t8   |Temporary            |No                              |
+|      23|t9   |"                    |No                              |
+|      24|t10  |"                    |No                              |
+|      25|t11  |"                    |No                              |
+|      26|ra   |Return address       |Yes                             |
+|      27|pv/t1|Procedure value      |No                              |
+|      28|at   |Assembler temporary  |No                              |
+|      29|gp   |Global pointer       |No                              |
+|      30|sp   |Stack pointer        |Yes                             |
+|      31|zero |Always zero          |n/a                             |
 
 Relocations
 ===========
 
-!literal
-!literal!N
+* !literal
+* !literal!N
+
 Used with an ldq instruction to load the address of a symbol from the GOT.
 A sequence number N is optional, and if present is used to pair lituse
 relocations with this literal relocation. The lituse relocations are used by
 the linker to optimize the code based on the final location of the symbol.
 
-!lituse_base!N
+* !lituse_base!N
+
 Used with any memory format instruction (e.g. ldl) to indicate that the literal
 is used for an address load. The offset field of the instruction must be zero.
 During relaxation, the code may be altered to use a gp-relative load.
 
-!lituse_jsr!N
+* !lituse_jsr!N
+
 Used with a register branch format instruction (e.g. jsr) to indicate that the
 literal is used for a call. During relaxation, the code may be altered to use
 a direct branch (e.g. bsr).
 
-!lituse_jsrdirect!N
+* !lituse_jsrdirect!N
+
 Similar to lituse_jsr, but also that this call cannot be vectored through a PLT
 entry. This is useful for functions with special calling conventions which do
 not allow the normal call-clobbered registers to be clobbered.
 
-!lituse_bytoff!N
+* !lituse_bytoff!N
+
 Used with a byte mask instruction (e.g. extbl) to indicate that only the low 3
 bits of the address are relevant. During relaxation, the code may be altered
 to use an immediate instead of a register shift.
 
-!lituse_addr!N
+* !lituse_addr!N
+
 Used with any other instruction to indicate that the original address is in
 fact used, and the original ldq instruction may not be altered or deleted.
 This is useful in conjunction with lituse_jsr to test whether a weak symbol
 is defined.
-```
+```Assembly
 	ldq  $27,foo($29)   !literal!1
 	beq  $27,is_undef   !lituse_addr!1
 	jsr  $26,($27),foo  !lituse_jsr!1
 ```
 
-!lituse_tlsgd!N
+* !lituse_tlsgd!N
+
 Used with a register branch format instruction to indicate that the literal
 is the call to __tls_get_addr used to compute the address of the thread-local
 storage variable whose descriptor was loaded with !tlsgd!N.
 
-!lituse_tlsldm!N
+* !lituse_tlsldm!N
+
 Used with a register branch format instruction to indicate that the literal
 is the call to __tls_get_addr used to compute the address of the base of the
 thread-local storage block for the current module. The descriptor for the
 module must have been loaded with !tlsldm!N.
 
-!gpdisp!N
+* !gpdisp!N
+
 Used with ldah and lda to load the GP from the current address, a-la the ldgp
 macro. The source register for the ldah instruction must contain the address
 of the ldah instruction. There must be exactly one lda instruction paired with
 the ldah instruction, though it may appear anywhere in the instruction stream.
 The immediate operands must be zero.
-```
+```Assembly
 	bsr  $26,foo
 	ldah $29,0($26)     !gpdisp!1
 	lda  $29,0($29)     !gpdisp!1
 ```
 
-!gprelhigh
+* !gprelhigh
+
 Used with an ldah instruction to add the high 16 bits of a 32-bit displacement
 from the GP.
 
-!gprellow
+* !gprellow
 Used with any memory format instruction to add the low 16 bits of a 32-bit
 displacement from the GP.
 
-!gprel
+* !gprel
+
 Used with any memory format instruction to add a 16-bit displacement from
 the GP.
 
-!samegp
+* !samegp
+
 Used with any branch format instruction to skip the GP load at the target
 address. The referenced symbol must have the same GP as the source object
 file, and it must be declared to either not use $27 or perform a standard GP
 load in the first two instructions via the .prologue directive.
 
-!tlsgd
-!tlsgd!N
+* !tlsgd
+* !tlsgd!N
+
 Used with an lda instruction to load the address of a TLS descriptor for a
 symbol in the GOT.  The sequence number N is optional, and if present it used
 to pair the descriptor load with both the literal loading the address of the
-__tls_get_addr function and the lituse_tlsgd marking the call to that function.
+`__tls_get_addr` function and the `lituse_tlsgd` marking the call to that function.
 
-!tlsldm
-!tlsldm!N
+* !tlsldm
+* !tlsldm!N
+
 Used with an lda instruction to load the address of a TLS descriptor for the
 current module in the GOT.  Similar in other respects to tlsgd.
 
-!gotdtprel
+* !gotdtprel
+
 Used with an ldq instruction to load the offset of the TLS symbol within its
 module's thread-local storage block. Also known as the dynamic thread pointer
 offset or dtp-relative offset.
 
-!dtprelhi
-!dtprello
-!dtprel
+* !dtprelhi
+* !dtprello
+* !dtprel
+
 Like gprel relocations except they compute dtp-relative offsets.
 
-!gottprel
+* !gottprel
+
 Used with an ldq instruction to load the offset of the TLS symbol from the
 thread pointer. Also known as the tp-relative offset.
 
-!tprelhi
-!tprello
-!tprel
+* !tprelhi
+* !tprello
+* !tprel
+
 Like gprel relocations except they compute tp-relative offsets.
 
 
@@ -169,11 +186,12 @@ hardware specification.
 The page table layout for OSF/1 (used in Tru64 UNIX and UNIX-like operating
 systems such as Linux), using 8k pages is :
 
-virtual address bits :
+```
 666555555555554444444|4443333333|3332222222|2221111111|11
 321098765432109876543|2109876543|2109876543|2109876543|2109876543210
 ---------------------+----------+----------+----------+-------------
 uuuuuuuuuuuuuuuuuuuuu|aaaaaaaaaa|bbbbbbbbbb|cccccccccc|ooooooooooooo
+```
 
 u : unused
 a : PTE index of root page table   (10 bits)
@@ -185,6 +203,7 @@ o : page offset                    (13 bits)
 
 These sizes are defined in /usr/include/asm/osf.h as follows :
 
+```
 #define VA_V_SEG1       33
 #define VA_M_SEG1       (0x3FF<<VA_V_SEG1)
 #define VA_V_SEG2       23
@@ -198,7 +217,7 @@ These sizes are defined in /usr/include/asm/osf.h as follows :
 #define VA_S_OFF        13
 #define VA_S_SEG        10
 #define VA_S_PAGE_SIZE  8192
-
+```
 
 Instruction Aliases
 ===================
@@ -207,22 +226,23 @@ Alpha has a very orthogonal instruction set, which together with its flexible
 register usage, results in the same opcode being used for multiple operations
 which might have seperate opcodes on other architectures.
 
-nop             = bis   $31,$31,$31
-fnop            = cpys  $31,$31,$f31
-clr             = bis   $31,$31,$x
-fclr            = cpys  $f31,$f31,$fx
-unop            = ldq_u $31,0($x)
-mov    #lit8,$y = bis   $31,lit8,$y
-mov    $x,$y    = bis   $x,$x,$y
-negl   $x,$y    = subl  $31,$x,$y
-negq   $x,$y    = subq  $31,$x,$y
-not    $x,$y    = ornot $31,$x,$y
-or     $x,$y,$z = bis   $x,$y,$z
-andnot $x,$y,$z = bic   $x,$y,$z
-
-fmov   $fx,$fy  = cpys  $fx,$fx,$fy
-fnegs  $fx,$fy  = cpysn $fx,$fx,$fy
-fnegt  $fx,$fy  = cpytn $fx,$fx,$fy
+| Pseudo Instruction | Actual Instruction  |
+| ------------------ | ------------------- |
+| nop                | bis   $31,$31,$31   |
+| fnop               | cpys  $31,$31,$f31  |
+| clr                | bis   $31,$31,$x    |
+| fclr               | cpys  $f31,$f31,$fx |
+| unop               | ldq_u $31,0($x)     |
+| mov    #lit8,$y    | bis   $31,lit8,$y   |
+| mov    $x,$y       | bis   $x,$x,$y      |
+| negl   $x,$y       | subl  $31,$x,$y     |
+| negq   $x,$y       | subq  $31,$x,$y     |
+| not    $x,$y       | ornot $31,$x,$y     |
+| or     $x,$y,$z    | bis   $x,$y,$z      |
+| andnot $x,$y,$z    | bic   $x,$y,$z      |
+| fmov   $fx,$fy     | cpys  $fx,$fx,$fy   |
+| fnegs  $fx,$fy     | cpysn $fx,$fx,$fy   |
+| fnegt  $fx,$fy     | cpytn $fx,$fx,$fy   |
 
 
 Instruction Formats
@@ -231,15 +251,68 @@ Instruction Formats
 General Format
 --------------
 
-33222222222211111111110000000000
-10987654321098765432109876543210
---------------------------------
-000000iiiiiiiiiiiiiiiiiiiiiiiiii PAL call             : imm
-ooooooaaaaabbbbbuuu0fffffffccccc ALU operation        : op ra rb unused func rc
-ooooooaaaaaiiiiiiii1fffffffccccc ALU/Memory operation : op ra imm func rc
-ooooooaaaaabbbbbtttrrssffffccccc Floating-point op    : op fa fb type round size func fc
-ooooooaaaaaooooooooooooooooooooo Branch               : op ra disp
-ooooooaaaaabbbbboooooooooooooooo Branch               : op ra rb disp
+<table>
+	<tr>
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td>11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Category</td>
+	</tr>
+	<tr>
+		<td>000000</td>
+		<td colspan="8">index</td>
+		<td>PAL call</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">function</td>
+		<td>Rc</td>
+		<td>ALU operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td colspan="2">immediate</td>
+		<td>1</td>
+		<td colspan="3">function</td>
+		<td>Rc</td>
+		<td>ALU/Memory operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>FRa</td>
+		<td>FRb</td>
+		<td>type</td>
+		<td colspan="2">round</td>
+		<td>size</td>
+		<td>function</td>
+		<td>FRc</td>
+		<td>Floating-point operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td colspan="7">displacement</td>
+		<td>PC-relative branch</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan=6">displacement</td>
+		<td>Register-relative branch</td>
+	</tr>
+</table>
 
 Specific Opcodes
 ----------------
