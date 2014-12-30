@@ -1,0 +1,2189 @@
+<html>
+	<head>
+		<style>
+table {
+	border-collapse: collapse;
+}
+td {
+	border: 2px solid #ccc;
+	padding: 2px;
+}
+thead, tr.group {
+	font-weight: bold;
+	background: #eee;
+}
+
+.ext {
+display: inline-block;
+float:right;
+min-width: 10px;
+padding: 3px 7px;
+font-size: 12px;
+font-weight: 700;
+line-height: 1;
+color: #fff;
+text-align: center;
+white-space: nowrap;
+vertical-align: baseline;
+border-radius: 10px;
+}
+
+.ext-cix {
+background-color: #48c;
+}
+
+.ext-mvi {
+background-color: #a44;
+}
+
+.ext-fix {
+background-color: #684;
+}
+
+.ext-bwx {
+background-color: #c82;
+}
+
+}
+
+
+		</style>
+	</head>
+	<body>
+
+<h2>DEC Alpha instruction encoding</h2>
+
+<h3>Encoding groups</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>31..26</td>
+			<td>25..21</td>
+			<td>20..16</td>
+			<td>15..13</td>
+			<td>12</td>
+			<td>11</td>
+			<td>10..9</td>
+			<td>8..5</td>
+			<td>4..0</td>
+			<td>Category</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>000000</td>
+		<td colspan="8">index</td>
+		<td>PAL call</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td>unused</td>
+		<td>0</td>
+		<td colspan="3">function</td>
+		<td>Rc</td>
+		<td>ALU operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td colspan="2">immediate</td>
+		<td>1</td>
+		<td colspan="3">function</td>
+		<td>Rc</td>
+		<td>ALU/Memory operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Fa</td>
+		<td>Fb</td>
+		<td>type</td>
+		<td colspan="2">round</td>
+		<td>size</td>
+		<td>function</td>
+		<td>Fc</td>
+		<td>Floating-point operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td colspan="7">displacement</td>
+		<td>PC-relative operation</td>
+	</tr>
+	<tr>
+		<td>opcode</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="6">displacement</td>
+		<td>Register-relative operation</td>
+	</tr>
+</table>
+
+<h3>Instruction set extensions</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>Mnemonic</td>
+			<td>Description</td>
+			<td>Introduced on</td>
+		</tr>
+	</thead>
+	<tr>
+		<td><span class="ext ext-bwx">BWX</span></td>
+		<td>Byte-Word Extensions (BWX)</td>
+		<td>21164A (EV56)</td>
+	</tr>	
+	<tr>
+		<td><span class="ext ext-fix">FIX</span></td>
+		<td>Square-root and Floating-point Convert Extension</td>
+		<td>21264 (EV6)</td>
+	</tr>
+	<tr>
+		<td><span class="ext ext-cix">CIX</span></td>
+		<td>Count Extensions</td>
+		<td>21264A (EV67)</td>
+	</tr>
+	<tr>
+		<td rowspan="3"><span class="ext ext-mvi">MVI</span></td>
+		<td rowspan="3">Motion Video Instructions</td>
+		<td>21164PC (PCA56, PCA57)</td>
+	</tr>
+	<tr>
+		<td>21264 (EV6)</td>
+	</tr>
+	<tr>
+		<td>21364 (EV7)</td>
+	</tr>
+</table>	
+
+<h3>Instruction encoding</h3>
+
+<table>
+	<tr class="group">
+		<td colspan="10">PALcall group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td colspan="8">25..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="4">000000</td>
+		<td colspan="8">index</td>
+		<td>call_pal index</td>
+	</tr>
+	<tr>
+		<td colspan="8">0x00</td>
+		<td>halt</td>
+	</tr>
+	<tr>
+		<td colspan="8">0x02</td>
+		<td>draina</td>
+	</tr>
+	<tr>
+		<td colspan="8">0x86</td>
+		<td>imb</td>
+	</tr>
+	<tr>
+		<td>000001</td>
+		<td rowspan="7" colspan="8">Compaq reserved</td>
+		<td>opc01</td>
+	</tr>
+	<tr>
+		<td>000010</td>
+		<td>opc02</td>
+	</tr>
+	<tr>
+		<td>000011</td>
+		<td>opc03</td>
+	</tr>
+	<tr>
+		<td>000100</td>
+		<td>opc04</td>
+	</tr>
+	<tr>
+		<td>000101</td>
+		<td>opc05</td>
+	</tr>
+	<tr>
+		<td>000110</td>
+		<td>opc06</td>
+	</tr>
+	<tr>
+		<td>000111</td>
+		<td>opc07</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Load/store group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td>001000</td>
+		<td rowspan="8">Ra</td>
+		<td rowspan="8">Rb</td>
+		<td rowspan="8" colspan="6">disp</td>
+		<td>lda Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>001001</td>
+		<td>ldah Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>001010</td>
+		<td>ldbu Ra, disp(Rb) <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td>001011</td>
+		<td>ldq_u Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>001100</td>
+		<td>ldwu Ra, disp(Rb) <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td>001101</td>
+		<td>stw Ra, disp(Rb) <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td>001110</td>
+		<td>stb Ra, disp(Rb) <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td>001111</td>
+		<td>stq_u Ra, disp(Rb)</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Arithmetic group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>
+	<tr>
+		<td rowspan="22">010000</td>
+		<td rowspan="22">Ra</td>
+		<td rowspan="22">Rb</td>
+		<td rowspan="22">000</td>
+		<td rowspan="22">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="22">Rc</td>
+		<td>addl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0000010</td>
+		<td>s4addl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001001</td>
+		<td>subl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001011</td>
+		<td>s4subl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001111</td>
+		<td>cmpbge Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010010</td>
+		<td>s8addl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0011010</td>
+		<td>s8subl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0011101</td>
+		<td>cmpult Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100000</td>
+		<td>addq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100010</td>
+		<td>s4addq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101001</td>
+		<td>subq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101011</td>
+		<td>s4subq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101111</td>
+		<td>cmpeq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110010</td>
+		<td>s8addq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111010</td>
+		<td>s8subq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111101</td>
+		<td>cmpule Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000000</td>
+		<td>addl/v Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1001001</td>
+		<td>subl/v Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1001101</td>
+		<td>cmplt Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100000</td>
+		<td>addq/v Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1101001</td>
+		<td>subq/v Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1101101</td>
+		<td>cmple Ra, Rb, Rc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Bitwise logic</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="16">010001</td>
+		<td rowspan="15">Ra</td>
+		<td rowspan="15">Rb</td>
+		<td rowspan="15">000</td>
+		<td rowspan="15">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="16">Rc</td>
+		<td>and Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001000</td>
+		<td>bic Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010100</td>
+		<td>cmovlbs Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010110</td>
+		<td>cmovlbc Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100000</td>
+		<td>bis Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100100</td>
+		<td>cmoveq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100110</td>
+		<td>cmovne Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101000</td>
+		<td>ornor Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000000</td>
+		<td>xor Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000100</td>
+		<td>cmovlt Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000110</td>
+		<td>cmovge Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1001000</td>
+		<td>eqv Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100001</td>
+		<td>amask Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100100</td>
+		<td>cmovle Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100110</td>
+		<td>cmovgt Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>00000</td>
+		<td>001</td>
+		<td>1</td>
+		<td colspan="3">1101100</td>
+		<td>implver Rc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Mask/insert/extract group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="26">010010</td>
+		<td rowspan="26">Ra</td>
+		<td rowspan="26">Rb</td>
+		<td rowspan="26">unused</td>
+		<td rowspan="26">0</td>
+		<td colspan="3">0000010</td>
+		<td rowspan="26">Rc</td>
+		<td>mskbl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0000110</td>
+		<td>extbl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0001011</td>
+		<td>insbl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010010</td>
+		<td>mskwl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0010110</td>
+		<td>extwl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0011011</td>
+		<td>inswl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100010</td>
+		<td>mskll Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100110</td>
+		<td>extll Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0101011</td>
+		<td>insll Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110000</td>
+		<td>zap Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110001</td>
+		<td>zapnot Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110010</td>
+		<td>mskql Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110100</td>
+		<td>srl Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110110</td>
+		<td>extql Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111001</td>
+		<td>sll Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111011</td>
+		<td>insql Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0111100</td>
+		<td>sra Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1010010</td>
+		<td>mskwh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1010111</td>
+		<td>inswh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1011010</td>
+		<td>extwh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100010</td>
+		<td>msklh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100111</td>
+		<td>inslh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1101010</td>
+		<td>extlh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1110010</td>
+		<td>mskqh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1110111</td>
+		<td>insqh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1111010</td>
+		<td>extqh Ra, Rb, Rc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Multiply group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="5">010011</td>
+		<td rowspan="5">Ra</td>
+		<td rowspan="5">Rb</td>
+		<td rowspan="5">unused</td>
+		<td rowspan="5">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="5">Rc</td>
+		<td>mull Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0100000</td>
+		<td>mulq Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">0110000</td>
+		<td>umulh Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1000000</td>
+		<td>mull/v Ra, Rb, Rc</td>
+	</tr>
+	<tr>
+		<td colspan="3">1100000</td>
+		<td>mulq/v Ra, Rb, Rc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">
+			IEEE floating point group
+			<p>
+			<table>
+				<tr>
+					<td>trap</td>
+					<td>Trapping mode</td>
+				</tr>
+				<tr>
+					<td>000</td>
+					<td>Imprecise (default)</td>
+				</tr>
+				<tr>
+					<td rowspan="2">001</td>
+					<td>Underflow enable (/u) (floating-point output)</td>
+				</tr>
+				<tr>
+					<td>Overflow enable (/v) (integer output)</td>
+				</tr>
+				<tr>
+					<td>010</td>
+					<td rowspan="3">Unsupported</td>
+				</tr>
+				<tr>
+					<td>011</td>
+				</tr>
+				<tr>
+					<td>100</td>
+				</tr>
+				<tr>
+					<td rowspan="2">101</td>
+					<td>/su Floating-point output</td>
+				</tr>
+				<tr>
+					<td>/sv Integer output</td>
+				</tr>
+				<tr>
+					<td>110</td>
+					<td>Unsupported</td>
+				</tr>
+				<tr>
+					<td rowspan="2">111</td>
+					<td>/sui Floating-point output</td>
+				</tr>
+				<tr>
+					<td>/svi Integer output</td>
+				</tr>
+			</table>
+			</p>
+
+			<p>
+			<table>
+				<tr>
+					<td>round</td>
+					<td>Rounding mode</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>Chopped (/c)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>Minus infinity (/m)</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>Normal (default)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Dynamiic (/d)</td>
+				</tr>
+			</table>
+			</p>
+
+			<p>
+			<table>
+				<tr>
+					<td>size</td>
+					<td>Data size (1)</td>
+					<td>Data size (2)</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>S_floating (s)</td>
+					<td>S_floating (s)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>reserved</td>
+					<td>unsupported</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>T_floating (t)</td>
+					<td>T_floating (t)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Q_fixed (q)</td>
+					<td>unsupported</td>
+				</tr>
+			</table>
+			</p>
+		</td>
+	</tr>
+	<tr class="group">
+		<td colspan="10">
+			IEEE floating point extensions (FIX, EV6+)
+		</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td colspan="2">12..11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>		
+	<tr>
+		<td rowspan="16">010100</td>
+		<td rowspan="4" colspan="6">-</td>
+		<td>0000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+	</tr>
+	<tr>
+		<td>Ra</td>
+		<td>11111</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size2</td>
+		<td>0100</td>
+		<td>Fc</td>
+		<td>itof(size2)(/round+trap) Ra,Fc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+	<tr>
+		<td rowspan="5" colspan="6">-</td>
+		<td>0101</td>
+		<td rowspan="5">-</td>
+		<td rowspan="5">reserved</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+	</tr>
+	<tr>
+		<td>1000</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Fb</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size2</td>
+		<td>1010</td>
+		<td>Fc</td>
+		<td>sqrt(size2)(/round+trap) Fb,Fc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+	<tr>
+		<td rowspan="5" colspan="6">-</td>
+		<td>1011</td>
+		<td rowspan="5">-</td>
+		<td rowspan="5">reserved</td>
+	</tr>
+	<tr>
+		<td>1100</td>
+	</tr>
+	<tr>
+		<td>1101</td>
+	</tr>
+	<tr>
+		<td>1110</td>
+	</tr>
+	<tr>
+		<td>1111</td>
+	</tr>
+	<tr class="group">
+		<td colspan="10">
+			IEEE floating point base (EV4+)
+		</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td colspan="2">12..11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>
+	<tr>
+		<td rowspan="16">010110</td>
+		<td rowspan="8">Fa</td>
+		<td rowspan="8">Fb</td>
+		<td rowspan="8">trap</td>
+		<td rowspan="8" colspan="2">round</td>
+		<td rowspan="8">size</td>
+		<td>0000</td>
+		<td rowspan="8">Fc</td>
+		<td>add(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+		<td>sub(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+		<td>mul(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+		<td>div(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0100</td>
+		<td>cmpxun(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0101</td>
+		<td>cmpxeq(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+		<td>cmpxlt(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+		<td>cmpxle(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td colspan="6" rowspan="4">-</td>
+		<td>1000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>1010</td>
+	</tr>
+	<tr>
+		<td>1011</td>
+	</tr>
+	<tr>
+		<td rowspan="4">11111</td>
+		<td rowspan="4">Fb</td>
+		<td rowspan="4">trap</td>
+		<td rowspan="4" colspan="2">round</td>
+		<td rowspan="4">size</td>
+		<td>1100</td>
+		<td rowspan="4">Fc</td>
+		<td>cvt(size)s/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>1101</td>
+		<td>unsupported</td>
+	</tr>
+	<tr>
+		<td>1110</td>
+		<td>cvt(size)t/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>1111</td>
+		<td>cvt(size)q/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr class="group">
+		<td colspan="10">
+			<div class="group">
+			VAX floating point group
+			</div>
+			<p>
+				<table>
+					<tr>
+						<td>trap</td>
+						<td>Trapping mode</td>
+					</tr>
+					<tr>
+						<td>000</td>
+						<td>Imprecise (default)</td>
+					</tr>
+					<tr>
+						<td rowspan="2">001</td>
+						<td>Underflow enable (/u) (floating-point output)</td>
+					</tr>
+					<tr>
+						<td>Overflow enable (/v)  (integer output)</td>
+					</tr>
+					<tr>
+						<td>010</td>
+						<td rowspan="2">Unsupported</td>
+					</tr>
+					<tr>
+						<td>011</td>
+					</tr>
+					<tr>
+						<td>100</td>
+						<td>/s Exception completion enable</td>
+					</tr>
+					<tr>
+						<td rowspan="2">101</td>
+						<td>/su (floating-point output)</td>
+					</tr>
+					<tr>
+						<td>/sv (integer output)</td>
+					</tr>
+					<tr>
+						<td>110</td>
+						<td>Unsupported</td>
+					</tr>
+					<tr>
+						<td>111</td>
+						<td>Unsupported</td>
+					</tr>
+				</table>
+			</p>
+			<p>
+				<table>
+					<tr>
+						<td>round</td>
+						<td>Rounding mode</td>
+					</tr>
+					<tr>
+						<td>00</td>
+						<td>Chopped (/c)</td>
+					</tr>
+					<tr>
+						<td>01</td>
+						<td>Unpredictable</td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td>Normal (default)</td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td>Unpredictable</td>
+					</tr>
+				</table>
+			</p>
+			<p>
+			<table>
+				<tr>
+					<td>size</td>
+					<td>Data size (1)</td>
+					<td>Data size (2)</td>
+				</tr>
+				<tr>
+					<td>00</td>
+					<td>F_floating (f)</td>
+					<td>F_floating (f)</td>
+				</tr>
+				<tr>
+					<td>01</td>
+					<td>D_floating (d)</td>
+					<td>F_floating (f)</td>
+				</tr> 
+				<tr>
+					<td>10</td>
+					<td>G_floating (g)</td>
+					<td>G_floating (g)</td>
+				</tr>
+				<tr>
+					<td>11</td>
+					<td>Q_fixed (q)</td>
+					<td>reserved</td>
+				</tr>
+			</table>
+			</p>
+		</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td colspan="2">12..11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="16">010101</td>
+		<td rowspan="4" colspan="6">-</td>
+		<td>0000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+	</tr>
+	<tr>
+		<td>Ra</td>
+		<td>11111</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size2</td>
+		<td>0100</td>
+		<td>Fc</td>
+		<td>itof(size2)(/round+trap) Ra,Fc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+	<tr>
+		<td rowspan="5" colspan="6">-</td>
+		<td>0101</td>
+		<td rowspan="5">-</td>
+		<td rowspan="5">reserved</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+	</tr>
+	<tr>
+		<td>1000</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Fb</td>
+		<td>trap</td>
+		<td colspan="2">round</td>
+		<td>size2</td>
+		<td>1010</td>
+		<td>Fc</td>
+		<td>sqrt(size2)(/round+trap) Fb,Fc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+	<tr>
+		<td rowspan="5" colspan="6">-</td>
+		<td>1011</td>
+		<td rowspan="5">-</td>
+		<td rowspan="5">reserved</td>
+	</tr>
+	<tr>
+		<td>1100</td>
+	</tr>
+	<tr>
+		<td>1101</td>
+	</tr>
+	<tr>
+		<td>1110</td>
+	</tr>
+	<tr>
+		<td>1111</td>
+	</tr>
+	<tr>
+		<td rowspan="16">010101</td>
+		<td rowspan="8">Fa</td>
+		<td rowspan="8">Fb</td>
+		<td rowspan="8">trap</td>
+		<td rowspan="8" colspan="2">round</td>
+		<td rowspan="8">size</td>
+		<td>0000</td>
+		<td rowspan="8">Fc</td>
+		<td>add(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+		<td>sub(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+		<td>mul(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+		<td>div(size)(/round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0100</td>
+		<td>cmpxun(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0101</td>
+		<td>cmpxeq(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+		<td>cmpxlt(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+		<td>cmpxle(size)/(round+trap) Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td colspan="6" rowspan="4">-</td>
+		<td>1000</td>
+		<td rowspan="4">-</td>
+		<td rowspan="4">reserved</td>
+	</tr>
+	<tr>
+		<td>1001</td>
+	</tr>
+	<tr>
+		<td>1010</td>
+	</tr>
+	<tr>
+		<td>1011</td>
+	</tr>
+	<tr>
+		<td rowspan="4">11111</td>
+		<td rowspan="4">Fb</td>
+		<td rowspan="4">trap</td>
+		<td rowspan="4" colspan="2">round</td>
+		<td rowspan="4">size</td>
+		<td>1100</td>
+		<td rowspan="4">Fc</td>
+		<td>cvt(size)f/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>1101</td>
+		<td>cvt(size)d/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>1110</td>
+		<td>cvt(size)g/(round+trap) Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>1111</td>
+		<td>cvt(size)q/(round+trap) Fb,Fc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">VAX Floating-point support group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td colspan="2">12..11</td>
+		<td>10..9</td>
+		<td>8..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="16">010111</td>
+		<td rowspan="14">Fa</td>
+		<td rowspan="16">Fb</td>
+		<td rowspan="16">000</td>
+		<td rowspan="16" colspan="2">00</td>
+		<td rowspan="14">10</td>
+		<td>0000</td>
+		<td rowspan="16">Fc</td>
+		<td>cpys Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0001</td>
+		<td>cpysn Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0010</td>
+		<td>cpyse Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>0011</td>
+		<td>-</td>
+	</tr>
+	<tr>
+		<td>0100</td>
+		<td>mt_fpcr Fa</td>
+	</tr>
+	<tr>
+		<td>0101</td>
+		<td>mf_fpcr Fa</td>
+	</tr>
+	<tr>
+		<td>0110</td>
+		<td>-</td>
+	</tr>
+	<tr>
+		<td>0111</td>
+		<td>-</td>
+	</tr>
+	<tr>
+		<td>1010</td>
+		<td>fcmoveq Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>1011</td>
+		<td>fcmovne Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>1100</td>
+		<td>fcmovlt Fa, Fb, Fc</td>
+	</tr>
+	<tr>
+		<td>1101</td>
+		<td>fcmovge</td>
+	</tr>
+	<tr>
+		<td>1110</td>
+		<td>fcmovle</td>
+	</tr>
+	<tr>
+		<td>1111</td>
+		<td>fcmovgt</td>
+	</tr>
+	<tr>
+		<td rowspan="2">11111</td>
+		<td>01</td>
+		<td rowspan="2">0000</td>
+		<td>cvtlq Fb,Fc</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>cvtql Fb,Fc</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Memory trap / barrier / hint group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>		
+	<tr>
+		<td rowspan="12">011000</td>
+		<td>00000</td>
+		<td>00000</td>
+		<td>000</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="12">00000</td>
+		<td>trapb / draint</td>
+	</tr>
+	<tr>
+		<td>00000</td>
+		<td>00000</td>
+		<td>000</td>
+		<td>0</td>
+		<td colspan="3">0100000</td>
+		<td>excb</td>
+	</tr>
+	<tr>
+		<td>00000</td>
+		<td>00000</td>
+		<td>010</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>mb</td>
+	</tr>
+	<tr>
+		<td>00000</td>
+		<td>00000</td>
+		<td>010</td>
+		<td>0</td>
+		<td colspan="3">0100000</td>
+		<td>wmb</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Rb</td>
+		<td>100</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>fetch (Rb)</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Rb</td>
+		<td>101</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>fetch_m (Rb)</td>
+	</tr>
+	<tr>
+		<td>Ra</td>
+		<td>11111</td>
+		<td>110</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>rpcc Ra</td>
+	</tr>
+	<tr>
+		<td>00000</td>
+		<td>Rb</td>
+		<td>111</td>
+		<td>0</td>
+		<td colspan="3">0000000</td>
+		<td>rc Rb</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Rb</td>
+		<td>111</td>
+		<td>0</td>
+		<td colspan="3">1000000</td>
+		<td>ecb (Rb)</td>
+	</tr>
+	<tr>
+		<td>00000</td>
+		<td>Rb</td>
+		<td>111</td>
+		<td>1</td>
+		<td colspan="3">0000000</td>
+		<td>rs Rb</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Rb</td>
+		<td>111</td>
+		<td>1</td>
+		<td colspan="3">1000000</td>
+		<td>wh64 (Rb)</td>
+	</tr>
+	<tr>
+		<td>11111</td>
+		<td>Rb</td>
+		<td>111</td>
+		<td>1</td>
+		<td colspan="3">1100000</td>
+		<td>wh64en (Rb)</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">PALcode group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>11111</td>
+		<td colspan="6">imm</td>
+		<td>pal19 / hw_mfpr Ra,imm</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Unconditional jump</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>	
+	<tr>
+		<td rowspan="4">011010</td>
+		<td rowspan="4">Ra</td>
+		<td rowspan="4">Rb</td>
+		<td colspan="6">00 | hint</td>
+		<td>jmp Ra,(Rb),hint</td>
+	</tr>
+	<tr>
+		<td colspan="6">01 | hint</td>
+		<td>jsr Ra,(Rb),hint</td>
+	</tr>
+	<tr>
+		<td colspan="6">10 | hint</td>
+		<td>ret Ra,(Rb),hint</td>
+	</tr>
+	<tr>
+		<td colspan="6">11 | hint</td>
+		<td>jsr_coroutine Ra,(Rb),hint</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Reserved PALcode group (part 2)</td>
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td colspan="8">reserved</td>
+		<td>pal1b</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Instruction set extensions</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..13</td>
+		<td>12</td>
+		<td colspan="3">11..5</td>
+		<td>4..0</td>
+		<td>Instruction</td>
+	</tr>		
+	<tr>
+		<td rowspan="20">011100</td>
+		<td rowspan="2">11111</td>
+		<td rowspan="18">Rb</td>
+		<td rowspan="20">000</td>
+		<td rowspan="20">0</td>
+		<td colspan="3">0000000</td>
+		<td rowspan="20">Rc</td>
+		<td>sextb Rb, Rc <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0000001</td>
+		<td>sextw Rb, Rc <span class="ext ext-bwx">BWX</span></td>
+	</tr>
+	<tr>
+		<td rowspan="9">Ra</td>
+		<td rolspan="9" colspan="3">0110001</td>
+		<td>perr Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111000</td>
+		<td>minsb8 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111001</td>
+		<td>minsw4 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111010</td>
+		<td>minub8 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111011</td>
+		<td>minuw4 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111100</td>
+		<td>maxub8 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111101</td>
+		<td>maxuw4 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111110</td>
+		<td>maxsb8 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0111111</td>
+		<td>maxsw4 Ra,Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td rowspan="7">11111</td>
+		<td colspan="3">0110000</td>
+		<td>ctpop Rb,Rc <span class="ext ext-cix">CIX</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0110010</td>
+		<td>ctlz Rb,Rc <span class="ext ext-cix">CIX</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0110011</td>
+		<td>cttz Rb,Rc <span class="ext ext-cix">CIX</span></td>
+	</tr>
+	<tr>
+		<td rolspan="4" colspan="3">0110100</td>
+		<td>unpkbw Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0110101</td>
+		<td>unpkbl Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0110110</td>
+		<td>pkwb Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0110111</td>
+		<td>pklb Rb,Rc <span class="ext ext-mvi">MVI</span></td>
+	</tr>
+	<tr>
+		<td rowspan="2">Fa</td>
+		<td rowspan="2">11111</td>
+		<td colspan="3">0000000</td>
+		<td>ftoit Fa, Rc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+	<tr>
+		<td colspan="3">0001000</td>
+		<td>ftois Fa, Rc <span class="ext ext-fix">FIX</span></td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">PALcode group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>		
+	<tr>
+		<td>011101</td>
+		<td>11111</td>
+		<td>Rb</td>
+		<td colspan="6">imm</td>
+		<td>pal1d / hw_mtpr Rb,imm</td>
+	</tr>
+	<tr>
+		<td>011110</td>
+		<td colspan="8" rowspan="2">reserved</td>
+		<td>pal1e index</td>
+	</tr>
+	<tr>
+		<td>011111</td>
+		<td>pal1f index</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Floating-point load / store group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>			
+	<tr>
+		<td>100000</td>
+		<td rowspan="8">Fa</td>
+		<td rowspan="8">Rb</td>
+		<td rowspan="8" colspan="6">disp</td>
+		<td>ldf Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100001</td>
+		<td>ldg Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100010</td>
+		<td>lds Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100011</td>
+		<td>ldt Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100100</td>
+		<td>stg Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100101</td>
+		<td>stg Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100110</td>
+		<td>sts Fa, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>100111</td>
+		<td>stt Fa, disp(Rb)</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Integer load / store group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="6">15..0</td>
+		<td>Instruction</td>
+	</tr>				
+	<tr>
+		<td>101000</td>
+		<td rowspan="8">Ra</td>
+		<td rowspan="8">Rb</td>
+		<td rowspan="8" colspan="6">disp</td>
+		<td>ldl Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101001</td>
+		<td>ldq Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101010</td>
+		<td>ldl_l Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101011</td>
+		<td>ldq_l Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101100</td>
+		<td>stl Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101101</td>
+		<td>stq Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101110</td>
+		<td>stl_c Ra, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>101111</td>
+		<td>stq_c Ra, disp(Rb)</td>
+	</tr>
+
+	<tr class="group">
+		<td colspan="10">Branch group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td colspan="7">20..0</td>
+		<td>Instruction</td>
+	</tr>				
+	<tr>
+		<td>110000</td>
+		<td rowspan="16">Ra</td>
+		<td rowspan="16" colspan="7">disp</td>
+		<td>br Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110001</td>
+		<td>fbeq Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110010</td>
+		<td>fblt Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110011</td>
+		<td>fble Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110100</td>
+		<td>bsr Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110101</td>
+		<td>fbne Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110110</td>
+		<td>fbge Ra, disp</td>
+	</tr>
+	<tr>
+		<td>110111</td>
+		<td>fbgt Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111000</td>
+		<td>blbc Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111001</td>
+		<td>beq Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111010</td>
+		<td>blt Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111011</td>
+		<td>ble Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111100</td>
+		<td>blbs Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111101</td>
+		<td>bne Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111110</td>
+		<td>bge Ra, disp</td>
+	</tr>
+	<tr>
+		<td>111111</td>
+		<td>bgt Ra, disp</td>
+	</tr>
+</table>
+
+<h3> Instruction aliases</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>Virtual</td>
+			<td>Real</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>nop</td>
+		<td>bis $31,$31,$31	</td>
+	</tr>
+
+	<tr>
+		<td>fclr $fa</td>
+		<td>cpys $31,$31,$fa</td>
+	</tr>
+	<tr>
+		<td>fabs $fa,$b</td>
+		<td>cpys $31,$fa,$fb</td>
+	</tr>
+	<tr>
+		<td>fneg $fa,$b</td>
+		<td>cpys $fa,$fb,$fb</td>
+	</tr>
+	<tr>
+		<td>fmov $fa,$b</td>
+		<td>cpys $fa,$fa,$fb</td>
+	</tr>
+
+	<tr>
+		<td>prefetch</td>
+		<td>ldl $31, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>prefetch_en</td>
+		<td>ldq $31, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>prefetch_m</td>
+		<td>lds $f31, disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>prefetch_men</td>
+		<td>ldt $f31, disp(Rb)</td>
+	</tr>
+</table>
+
+<h3>PALcode Entry Points (21064, 21064A, 21066, 21066A, and 21068)</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>PAL_BASE offset</td>
+			<td>Trigger</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>0x0000</td>
+		<td rowspan="12">hardware</td>
+		<td>reset entry point</td>
+	</tr>
+	<tr>
+		<td>0x0020</td>
+		<td>machine check</td>
+	</tr>
+	<tr>
+		<td>0x0060</td>
+		<td>arithmetic exception</td>
+	</tr>
+	<tr>
+		<td>0x00e0</td>
+		<td>interrupt</td>
+	</tr>
+	<tr>
+		<td>0x01e0</td>
+		<td>data stream error</td>
+	</tr>
+	<tr>
+		<td>0x03e0</td>
+		<td>instruction translation buffer miss</td>
+	</tr>
+	<tr>
+		<td>0x07e0</td>
+		<td>Istream access violation</td>
+	</tr>
+	<tr>
+		<td>0x08e0</td>
+		<td>DTB miss native mode</td>
+	</tr>
+	<tr>
+		<td>0x09e0</td>
+		<td>DTB miss PALmode</td>
+	</tr>
+	<tr>
+		<td>0x11e0</td>
+		<td>Unalign errors</td>
+	</tr>
+	<tr>
+		<td>0x13e0</td>
+		<td>reserved / privileged opcode</td>
+	</tr>
+	<tr>
+		<td>0x17e0</td>
+		<td>floating-point error</td>
+	</tr>
+	<tr>
+		<td>0x2000</td>
+		<td rowspan="2">software</td>
+		<td>privileged call_pal entry points</td>
+	</tr>
+	<tr>
+		<td>0x3000</td>
+		<td>unprivileged call_pal entry points</td>
+	</tr>
+</table>
+
+<h3>PALcode Entry Points (21164)</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>PAL_BASE offset</td>
+			<td>Trigger</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>0x0000</td>
+		<td rowspan="12">hardware</td>
+		<td>reset entry point</td>
+	</tr>
+	<tr>
+		<td>0x0080</td>
+		<td>Istream access violation</td>
+	</tr>
+	<tr>
+		<td>0x0100</td>
+		<td>interrupt</td>
+	</tr>
+	<tr>
+		<td>0x0180</td>
+		<td>instruction translation buffer miss</td>
+	</tr>
+	<tr>
+		<td>0x0200</td>
+		<td>single Dstream translation buffer miss</td>
+	</tr>
+	<tr>
+		<td>0x0280</td>
+		<td>double Dstream translation buffer miss</td>
+	</tr>
+	<tr>
+		<td>0x0300</td>
+		<td>Unaligned memory access</td>
+	</tr>
+	<tr>
+		<td>0x0380</td>
+		<td>Data stream error</td>
+	</tr>
+	<tr>
+		<td>0x0400</td>
+		<td>Machine check</td>
+	</tr>
+	<tr>
+		<td>0x0480</td>
+		<td>Reserved / prvileged opcode</td>
+	</tr>
+	<tr>
+		<td>0x0500</td>
+		<td>Arithmetic exception</td>
+	</tr>
+	<tr>
+		<td>0x0580</td>
+		<td>Floating-point error</td>
+	</tr>
+	<tr>
+		<td>0x2000</td>
+		<td rowspan="2">software</td>
+		<td>privileged call_pal entry points</td>
+	</tr>
+	<tr>
+		<td>0x3000</td>
+		<td>unprivileged call_pal entry points</td>
+	</tr>
+</table>
+
+<h3>call_pal entry points</h3>
+
+<table>
+	<thead>
+		<tr>
+			<td>index</td>
+			<td>Name</td>
+			<td>Specification</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>0x00</td>
+		<td>halt</td>
+		<td>ev4</td>
+		<td>Return to SRM control (power-down or enter console)</td>
+	</tr>
+	<tr>
+		<td rowspan="2">0x01</td>
+		<td>cflush</td>
+		<td>ev4</td>
+		<td>Flush cache</td>
+	</tr>
+	<tr>
+		<td>restart</td>
+		<td>Windows NT Alpha</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x02</td>
+		<td>draina</td>
+		<td>ev4</td>
+		<td>Drain abort</td>
+	</tr>
+	<tr>
+		<td>0x03</td>
+		<td>reboot</td>
+		<td>Windows NT Alpha</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x04</td>
+		<td>initpal</td>
+		<td>Windows NT Alpha</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x05</td>
+		<td>initpal</td>
+		<td>Windows NT Alpha</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x09</td>
+		<td>cserve</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x0a</td>
+		<td>swppal</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x0d</td>
+		<td>wripir</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x10</td>
+		<td>rdmces</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x11</td>
+		<td>wrmces</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x2b</td>
+		<td>wrfen</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x2d</td>
+		<td>wrvptptr</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x30</td>
+		<td>swpctx</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x31</td>
+		<td>wrval</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x32</td>
+		<td>rdval</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x33</td>
+		<td>tbi</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x34</td>
+		<td>wrent</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x35</td>
+		<td>swpipl</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x36</td>
+		<td>rdps</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x37</td>
+		<td>wrkgp</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x38</td>
+		<td>wrusp</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x39</td>
+		<td>wrperfmon</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x3a</td>
+		<td>rdusp</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x3c</td>
+		<td>whami</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x3d</td>
+		<td>retsys</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x3e</td>
+		<td>wtint</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x3f</td>
+		<td>rti</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x92</td>
+		<td>urti</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0xae</td>
+		<td>clrfen</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0xbe</td>
+		<td>nphalt</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0xbf</td>
+		<td>copypal</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>0x80</td>
+		<td>bpt</td>
+		<td>OSF/1</td>
+		<td>Breakpoint (R16 = code)</td>
+	</tr>
+	<tr>
+		<td>0x81</td>
+		<td>bugchk</td>
+		<td>OSF/1</td>
+		<td>Bugcheck trap (R16 = code)</td>
+	</tr>
+	<tr>
+		<td>0x83</td>
+		<td>callsys</td>
+		<td>OSF/1</td>
+		<td>System call</td>
+	</tr>
+	<tr>
+		<td>0x86</td>
+		<td>imb</td>
+		<td>ev4 / OSF/1</td>
+		<td>I-Stream memory barrier</td>
+	</tr>
+	<tr>
+		<td>0x92</td>
+		<td>urti</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+
+	<tr>
+		<td>0x9e</td>
+		<td>rdunique</td>
+		<td>OSF/1</td>
+		<td>Read unique value</td>
+	</tr>
+	<tr>
+		<td>0x9f</td>
+		<td>wrunique</td>
+		<td>OSF/1</td>
+		<td>Write unique value</td>
+	</tr>
+	<tr>
+		<td>0xaa</td>
+		<td>gentrap</td>
+		<td>OSF/1</td>
+		<td>Generate trap</td>
+	</tr>
+	<tr>
+		<td>0xae</td>
+		<td>clrfen</td>
+		<td>OSF/1</td>
+		<td></td>
+	</tr>
+</table>
+
+</body>
+</html>
