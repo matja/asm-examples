@@ -38,46 +38,42 @@ main: .quad .main, .TOC.@tocbase, 0
 	cmpwi 3, 3                # 3 arguments (including program name) ?
 	bne   0, error            # no, print error and exit
 
-	ld    3, 16(4)             # get argv[1]
+	ld    3, 16(4)            # get argv[1]
 	bl    atoi                # convert string to int
-	nop
+	nop                       # toc fixup space
 	std   3, 64(1)            # save
 
 	ld    4, 56(1)            # get saved argv
-	ld    3, 8(4)            # get argv[2]
+	ld    3, 8(4)             # get argv[2]
 	bl    atof                # convert string to double
 	nop
 	ld    3, 64(1)            # restore
 
 	bl    taylor_sin
-	nop
 
 	stfd  1, 64(1)            # copy float reg
 	ld    4, 64(1)            # into fixed reg
 	addis 3, 2, format@toc@ha # arg 0 : address of format (high)
 	addi  3, 3, format@toc@l  # arg 0 : get address of format (low)
 	bl    printf              # call libc printf
-	nop                       # branch delay
+	nop                       # toc fixup space
 
 	li    3, 0                # return value
 	b     done
-	nop
 
 error:
 	addis 3, 2, error_message@toc@ha # arg 0 : address of format (high)
 	addi  3, 3, error_message@toc@l  # arg 0 : get address of format (low)
 	bl    puts                # call libc puts
-	nop                       # branch delay
+	nop                       # toc fixup space
 	li    3, 1                # return value
 	b     done
-	nop
 	
 done:
 	addi  1, 1, 128           # destroy stack frame
 	ld    0, 16(1)            # load saved link register from stack
 	mtlr  0                   # restore link register value
 	blr                       # return
-	nop                       # branch delay
 
 # input:
 # r3 = terms
@@ -141,4 +137,3 @@ taylor_sin_loop:
 	ld    0, 16(1)            # load saved link register from stack
 	mtlr  0                   # restore link register value
 	blr                       # return
-	nop                       # branch delay
