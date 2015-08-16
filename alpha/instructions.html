@@ -1513,19 +1513,19 @@ background-color: #48c;
 		<td rowspan="4">Ra</td>
 		<td rowspan="4">Rb</td>
 		<td colspan="6">00 | hint</td>
-		<td><span class="mnemonic">jmp <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span> <span class="ext ext-bwx">BWX</span></td>
+		<td><span class="mnemonic">jmp <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span></td>
 	</tr>
 	<tr>
 		<td colspan="6">01 | hint</td>
-		<td><span class="mnemonic">jsr <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span> <span class="ext ext-bwx">BWX</span></td>
+		<td><span class="mnemonic">jsr <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span></td>
 	</tr>
 	<tr>
 		<td colspan="6">10 | hint</td>
-		<td><span class="mnemonic">ret <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span> <span class="ext ext-bwx">BWX</span></td>
+		<td><span class="mnemonic">ret <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span></td>
 	</tr>
 	<tr>
 		<td colspan="6">11 | hint</td>
-		<td><span class="mnemonic">jsr_coroutine <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span> <span class="ext ext-bwx">BWX</span></td>
+		<td><span class="mnemonic">jsr_coroutine <span class="operand">Ra</span>,(<span class="operand">RB</span>),<span class="operand">hint</span></span></td>
 	</tr>
 
 	<tr class="group">
@@ -1851,134 +1851,44 @@ background-color: #48c;
 		</tr>
 	</thead>
 	<tr>
-		<td>nop</td>
-		<td>bis R31,R31,R31</td>
-	</tr>
-	<tr>
-		<td>unop</td>
-		<td>ldq_u R31,0(Rx)</td>
-	</tr>
-	<tr>
-		<td>ldwu Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u Rx,0(at)<br/>
-			extwl Rx,at,Rx<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>mov Rx,Ry</td>
-		<td>bis Rx,Rx,Ry</d>
-	</tr>
-	<tr>
-		<td>fmov Fx,Fy</td>
-		<td>cpys Fx,Fx,Fy</d>
-	</tr>
-	<tr>
-		<td>uldl Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u t9,0(at)<br/>
-			ldq_u t10,3(at)<br/>
-			extll t9,at,t9<br/>
-			extlh t10,at,t10<br/>
-			or    t9,t10,Rx<br/>
-			sextl Rx,Rx<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>uldq Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u t9,0(at)<br/>
-			ldq_u t10,7(at)<br/>
-			extql t9,at,t9<br/>
-			extqh t10,at,t10<br/>
-			or    t9,t10,Rx<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>uldwu Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u t9,0(at)<br/>
-			ldq_u t10,1(at)<br/>
-			extwl t9,at,t9<br/>
-			extwh t10,at,t10<br/>
-			or    t9,t10,Rx<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>ustq Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u t9,0(at)<br/>
-			ldq_u t10,7(at)<br/>
-			insql Rx,at,t11<br/>
-			insqh Rx,at,t12<br/>
-			mskql t9,at,t9<br/>
-			mskqh t10,at,t10<br/>
-			or    t9,t11,t9<br/>
-			or    t10,t12,t10<br/>
-			stq_u t10,7(at)<br/>
-			stq_u t9,0(at)<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>ustl Rx,y</td>
-		<td>
-			ldq   at,y<br/>
-			ldq_u t9,0(at)<br/>
-			ldq_u t10,3(at)<br/>
-			insll Rx,at,t11<br/>
-			inslh Rx,at,t12<br/>
-			mskll t9,at,t9<br/>
-			msklh t10,at,t10<br/>
-			or    t9,t11,t9<br/>
-			or    t10,t12,t10<br/>
-			stq_u t10,3(at)<br/>
-			stq_u t9,0(at)<br/>
-		</td>
-	</tr>
-
-
-
-	<tr>
-		<td>ldil Rx,imm32</td>
-		<td>
-			ldah Rx,lowword(imm32)<br/>
-			lda  Rx,highword(imm32)(Rx)<br/>
-		</td>
-	</tr>
-	<tr>
-		<td>not Rx,Ry</td>
-		<td>ornot R31,Rx,Ry</d>
-	</tr>
-	<tr>
-		<td>or Rx,Ry,Rz</td>
-		<td>bis Rx,Ry,Rz</d>
-	</tr>
-	<tr>
 		<td>andnot Rx,Ry,Rz</td>
 		<td>bic Rx,Ry,Rz</d>
 	</tr>
 	<tr>
-		<td>xornot Rx,Ry,Rz</td>
-		<td>eqv Rx,Ry,Rz</d>
-	</tr>
-
-	<tr>
 		<td>br target</td>
 		<td>br R31,target</td>
-	</tr>
-
-	<tr>
-		<td>fabs Fx,Fy</td>
-		<td>cpys F31,Fx,Fy</td>
 	</tr>
 	<tr>
 		<td>clr Rx</td>
 		<td>bis R31,R31,Rx</td>
+	</tr>
+	<tr>
+		<td>divl Rx,Ry,Rz</td>
+		<td>
+			mov  Rx,t10<br/>
+			mov  Ry,t11<br/>
+			ldq  t12,__divl(gp)!literal!1<br/>
+			jsr  t9,(t12),__divl!lituse_jsr!1<br/>
+			ldah gp,0(t9)!gpdisp!2<br/>
+			lda  gp,0(gp)!gpdisp!2<br/>
+			mov  t12,Rz<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>divq Rx,Ry,Rz</td>
+		<td>
+			mov  Rx,t10<br/>
+			mov  Ry,t11<br/>
+			ldq  t12,__divq(gp)!literal!1<br/>
+			jsr  t9,(t12),__divq!lituse_jsr!1<br/>
+			ldah gp,0(t9)!gpdisp!2<br/>
+			lda  gp,0(gp)!gpdisp!2<br/>
+			mov  t12,Rz<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>fabs Fx,Fy</td>
+		<td>cpys F31,Fx,Fy</td>
 	</tr>
 	<tr>
 		<td>fclr Fx</td>
@@ -1995,6 +1905,92 @@ background-color: #48c;
 	<tr>
 		<td>fnop</td>
 		<td>cpys F31,F31,F31</td>
+	</tr>
+	<tr>
+		<td>
+			ldb Rx,y<br/>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u Rx,0(at)<br/>
+			extbl Rx,at,Rx<br/>
+			sll   Rx,0x38,Rx<br/>
+			sra   Rx,0x38,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ldb Rx,y<br/>
+			(ev56 and later)
+		</td>
+		<td>
+			ldbu  Rx,y<br/>
+			sextb Rx,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ldbu Rx,y<br/>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u Rx,0(at)<br/>
+			extbl Rx,at,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>ldgp gp,y</td>
+		<td>
+			ldah gp,y<br/>
+			lda  gp,0(gp)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>ldil Rx,imm32</td>
+		<td>
+			ldah Rx,lowword(imm32)<br/>
+			lda  Rx,highword(imm32)(Rx)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ldw Rx,y<br/>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u Rx,0(at)<br/>
+			extwl Rx,at,Rx<br/>
+			sll   Rx,0x30,Rx<br/>
+			sra   Rx,0x30,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ldw Rx,y<br/>
+			(ev56 and later)
+		</td>
+		<td>
+			ldwu Rx,y<br/>
+			sextw Rx,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			ldwu Rx,y<br/>
+			(before ev56)
+		</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u Rx,0(at)<br/>
+			extwl Rx,at,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>mov Rx,Ry</td>
+		<td>bis Rx,Rx,Ry</d>
 	</tr>
 	<tr>
 		<td>mov Rx/Lit(8),Ry</td>
@@ -2029,6 +2025,18 @@ background-color: #48c;
 		<td>subg/s F31,Fx,Fy</td>
 	</tr>
 	<tr>
+		<td>nop</td>
+		<td>bis R31,R31,R31</td>
+	</tr>
+	<tr>
+		<td>not Rx,Ry</td>
+		<td>ornot R31,Rx,Ry</d>
+	</tr>
+	<tr>
+		<td>or Rx,Ry,Rz</td>
+		<td>bis Rx,Ry,Rz</d>
+	</tr>
+	<tr>
 		<td>prefetch</td>
 		<td>ldl R31,disp(Rb)</td>
 	</tr>
@@ -2043,6 +2051,183 @@ background-color: #48c;
 	<tr>
 		<td>prefetch_men</td>
 		<td>ldt F31,disp(Rb)</td>
+	</tr>
+	<tr>
+		<td>reml Rx,Ry,Rz</td>
+		<td>
+			mov  Rx,t10<br/>
+			mov  Ry,t11<br/>
+			ldq  t12,__reml(gp)!literal!1<br/>
+			jsr  t9,(t12),__reml!lituse_jsr!1<br/>
+			ldah gp,0(t9)!gpdisp!2<br/>
+			lda  gp,0(gp)!gpdisp!2<br/>
+			mov  t12,Rz<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>remq Rx,Ry,Rz</td>
+		<td>
+			mov  Rx,t10<br/>
+			mov  Ry,t11<br/>
+			ldq  t12,__remq(gp)!literal!1<br/>
+			jsr  t9,(t12),__remq!lituse_jsr!1<br/>
+			ldah gp,0(t9)!gpdisp!2<br/>
+			lda  gp,0(gp)!gpdisp!2<br/>
+			mov  t12,Rz<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>sextl Fx,Fy</td>
+		<td>addl F31,Fx,Fy</d>
+	</tr>
+	<tr>
+		<td>
+			stb Rx,Ry<br>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,Ry<br/>
+			ldq_u t9,0(at)<br/>
+			insbl Rx,at,t10<br/>
+			mskbl t9,at,t9<br/>
+			or    t9,t10,t9<br/>
+			stq_u t9,0(at)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			stw Rx,Ry<br>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,Ry<br/>
+			ldq_u t9,0(at)<br/>
+			inswl Rx,at,t10<br/>
+			mskwl t9,at,t9<br/>
+			or    t9,t10,t9<br/>
+			stq_u t9,0(at)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>uldl Rx,y</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,3(at)<br/>
+			extll t9,at,t9<br/>
+			extlh t10,at,t10<br/>
+			or    t9,t10,Rx<br/>
+			sextl Rx,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>uldq Rx,y</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,7(at)<br/>
+			extql t9,at,t9<br/>
+			extqh t10,at,t10<br/>
+			or    t9,t10,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			uldw Rx,y<br/>
+			(before ev56)
+		</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,1(at)<br/>
+			extwl t9,at,t9<br/>
+			extwh t10,at,t10<br/>
+			or    t9,t10,Rx<br/>
+			sll   Rx,0x30,Rx<br/>
+			sra   Rx,0x30,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			uldw Rx,y<br/>
+			(ev56 and later)
+		</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,1(at)<br/>
+			extwl t9,at,t9<br/>
+			extwh t10,at,t10<br/>
+			or    t9,t10,Rx<br/>
+			sextw Rx,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>uldwu Rx,y</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,1(at)<br/>
+			extwl t9,at,t9<br/>
+			extwh t10,at,t10<br/>
+			or    t9,t10,Rx<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>unop</td>
+		<td>ldq_u R31,0(Rx)</td>
+	</tr>
+	<tr>
+		<td>ustl Rx,y</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,3(at)<br/>
+			insll Rx,at,t11<br/>
+			inslh Rx,at,t12<br/>
+			mskll t9,at,t9<br/>
+			msklh t10,at,t10<br/>
+			or    t9,t11,t9<br/>
+			or    t10,t12,t10<br/>
+			stq_u t10,3(at)<br/>
+			stq_u t9,0(at)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>ustq Rx,y</td>
+		<td>
+			ldq   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,7(at)<br/>
+			insql Rx,at,t11<br/>
+			insqh Rx,at,t12<br/>
+			mskql t9,at,t9<br/>
+			mskqh t10,at,t10<br/>
+			or    t9,t11,t9<br/>
+			or    t10,t12,t10<br/>
+			stq_u t10,7(at)<br/>
+			stq_u t9,0(at)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>ustw Rx,y</td>
+		<td>
+			lda   at,y<br/>
+			ldq_u t9,0(at)<br/>
+			ldq_u t10,1(at)<br/>
+			inswl Rx,at,t11<br/>
+			inswh Rx,at,t12<br/>
+			mskwl t9,at,t9<br/>
+			mskwh t10,at,t10<br/>
+			or    t9,t11,t9<br/>
+			or    t10,t12,t10<br/>
+			stq_u t10,1(at)<br/>
+			stq_u t9,0(at)<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>xornot Rx,Ry,Rz</td>
+		<td>eqv Rx,Ry,Rz</d>
 	</tr>
 </table>
 
@@ -2188,6 +2373,29 @@ background-color: #48c;
 
 <h3>call_pal entry points</h3>
 
+<p>
+<table>
+	<thead>
+		<tr>
+			<td>Mnemonic</td>
+			<td>Description</td>
+		</tr>
+	</thead>
+	<tr>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>DEC OpenVMS</td>
+	</tr>
+	<tr>
+		<td><span class="abi abi-osf1">OSF/1</span></td>
+		<td>DEC Digital UNIX, DEC OSF/1, HP Tru64 UNIX, GNU/Linux</td>
+	</tr>
+	<tr>
+		<td><span class="abi abi-winnt">WinNT</span></td>
+		<td>Microsoft Windows NT AXP</td>
+	</tr>
+</table>
+</p>
+
 <table>
 	<thead>
 		<tr>
@@ -2200,7 +2408,7 @@ background-color: #48c;
 	<tr>
 		<td>0x00</td>
 		<td>halt</td>
-		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">WinNT</span></td>
 		<td>Halt processor, return to SRM control (power-down or enter console)</td>
 	</tr>
 	<tr>
@@ -2211,13 +2419,13 @@ background-color: #48c;
 	</tr>
 	<tr>
 		<td>restart</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>0x02</td>
 		<td>draina</td>
-		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">WinNT</span></td>
 		<td>Drain aborts</td>
 	</tr>
 	<tr>
@@ -2228,7 +2436,7 @@ background-color: #48c;
 	</tr>
 	<tr>
 		<td>reboot</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td></td>
 	</tr>
 	<tr>
@@ -2239,13 +2447,30 @@ background-color: #48c;
 	</tr>
 	<tr>
 		<td>initpal</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Initialize PALcode</td>
+	</tr>
+	<tr>
+		<td rowspan="2">0x06</td>
+		<td>mfpr_asn</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Move from processor register ASN</td>
+	</tr>
+	<tr>
+		<td>swpirql</td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
+		<td>Swap IRQL</td>
+	</tr>
+	<tr>
+		<td>0x07</td>
+		<td>mfpr_esp</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Move from processor register ESP</td>
 	</tr>
 	<tr>
 		<td>0x08</td>
 		<td>di</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Disable interrupts</td>
 	</tr>
 	<tr>
@@ -2255,57 +2480,67 @@ background-color: #48c;
 		<td>Console service</td>
 	</tr>
 	<tr>
-		<td>di</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td>ei</td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Enable interrupts</td>
 	</tr>
 	<tr>
 		<td>0x0a</td>
 		<td>swppal</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Swap PALcode image</td>
 	</tr>
 	<tr>
 		<td>0x0d</td>
 		<td>wripir</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write interprocessor interrupt request</td>
 	</tr>
 	<tr>
-		<td>0x10</td>
+		<td rowspan="2">0x10</td>
 		<td>rdmces</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
 		<td>Read machine check error summary register</td>
 	</tr>
 	<tr>
-		<td>0x11</td>
+		<td>swpctx</td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
+		<td>Swap privileged thread context</td>
+	</tr>
+	<tr>
+		<td rowspan="2">0x11</td>
 		<td>wrmces</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write machine check error summary register</td>
+	</tr>
+	<tr>
+		<td>swpprocess</td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
+		<td>Swap privileged process context</td>
 	</tr>
 	<tr>
 		<td>0x2b</td>
 		<td>wrfen</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write floating-point enable</td>
 	</tr>
 	<tr>
 		<td>0x2d</td>
 		<td>wrvptptr</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write virtual page table pointer</td>
 	</tr>
 	<tr>
 		<td>0x30</td>
 		<td>swpctx</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Swap privileged context</td>
 	</tr>
 	<tr>
 		<td>0x31</td>
 		<td>wrval</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write system value</td>
 	</tr>
 	<tr>
 		<td>0x32</td>
@@ -2317,19 +2552,19 @@ background-color: #48c;
 		<td>0x33</td>
 		<td>tbi</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Real system value</td>
 	</tr>
 	<tr>
 		<td>0x34</td>
 		<td>wrent</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write system entry address</td>
 	</tr>
 	<tr>
 		<td>0x35</td>
 		<td>swpipl</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Swap IPL</td>
 	</tr>
 	<tr>
 		<td>0x36</td>
@@ -2341,19 +2576,19 @@ background-color: #48c;
 		<td>0x37</td>
 		<td>wrkgp</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write kernel global pointer</td>
 	</tr>
 	<tr>
 		<td>0x38</td>
 		<td>wrusp</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Write user stack pointer</td>
 	</tr>
 	<tr>
 		<td>0x39</td>
 		<td>wrperfmon</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Performance monitoring function</td>
 	</tr>
 	<tr>
 		<td>0x3a</td>
@@ -2365,49 +2600,25 @@ background-color: #48c;
 		<td>0x3c</td>
 		<td>whami</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Who am I - get processor number</td>
 	</tr>
 	<tr>
 		<td>0x3d</td>
 		<td>retsys</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Return from system call</td>
 	</tr>
 	<tr>
 		<td>0x3e</td>
 		<td>wtint</td>
-		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span></td>
+		<td>Wait for interrupt</td>
 	</tr>
 	<tr>
 		<td>0x3f</td>
 		<td>rti</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0x92</td>
-		<td>urti</td>
-		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0xae</td>
-		<td>clrfen</td>
-		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0xbe</td>
-		<td>nphalt</td>
-		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>0xbf</td>
-		<td>copypal</td>
-		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Return from interrupt</td>
 	</tr>
 	<tr>
 		<td>0x80</td>
@@ -2424,20 +2635,43 @@ background-color: #48c;
 	<tr>
 		<td>0x83</td>
 		<td>callsys</td>
-		<td><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">WinNT</span></td>
 		<td>Call system service</td>
 	</tr>
 	<tr>
 		<td>0x86</td>
 		<td>imb</td>
-		<td><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">WinNT</span></td>
 		<td>I-stream memory barrier</td>
 	</tr>
 	<tr>
-		<td>0x92</td>
+		<td>0x8f</td>
+		<td>prober</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Probe for read access</td>
+	</tr>
+	<tr>
+		<td>0x90</td>
+		<td>probew</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Probe for write access</td>
+	</tr>
+	<tr>
+		<td>0x91</td>
+		<td>rd_ps</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Move processor status</td>
+	</tr>
+	<tr>
+		<td rowspan="2">0x92</td>
+		<td>rei</td>
+		<td><span class="abi abi-openvms">OpenVMS</span></td>
+		<td>Return from exception or interrupt</td>
+	</tr>
+	<tr>
 		<td>urti</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
-		<td></td>
+		<td>Return from user mode trap</td>
 	</tr>
 	<tr>
 		<td>0x9e</td>
@@ -2455,37 +2689,37 @@ background-color: #48c;
 		<td>0xa0</td>
 		<td>amovrr</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td></td>
+		<td>Atomic move from register to register</td>
 	</tr>
 	<tr>
 		<td>0xa1</td>
 		<td>amovrm</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td></td>
+		<td>Atomic move from register to memory</td>
 	</tr>
 	<tr>
 		<td>0xa2</td>
 		<td>insqhilr</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td>Insert unto longword queue at head interlocked resident</td>
+		<td>Insert into longword queue at head interlocked resident</td>
 	</tr>
 	<tr>
 		<td>0xa3</td>
 		<td>insqtilr</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td>Insert unto longword queue at tail interlocked resident</td>
+		<td>Insert into longword queue at tail interlocked resident</td>
 	</tr>
 	<tr>
 		<td>0xa4</td>
 		<td>insqhiqr</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td>Insert unto quadword queue at head interlocked resident</td>
+		<td>Insert into quadword queue at head interlocked resident</td>
 	</tr>
 	<tr>
 		<td>0xa5</td>
 		<td>insqtiqr</td>
 		<td><span class="abi abi-openvms">OpenVMS</span></td>
-		<td>Insert unto quadword queue at tail interlocked resident</td>
+		<td>Insert into quadword queue at tail interlocked resident</td>
 	</tr>
 	<tr>
 		<td>0xa6</td>
@@ -2514,33 +2748,47 @@ background-color: #48c;
 	<tr>
 		<td>0xaa</td>
 		<td>gentrap</td>
-		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">Windows NT AXP</span></td>
-		<td>Generate trap</td>
+		<td><span class="abi abi-openvms">OpenVMS</span><span class="abi abi-osf1">OSF/1</span><span class="abi abi-winnt">WinNT</span></td>
+		<td>Generate software trap</td>
 	</tr>
 	<tr>
 		<td>0xab</td>
 		<td>rdteb</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Read TEB internal processor register</td>
 	</tr>
 	<tr>
 		<td>0xac</td>
 		<td>kbpt</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Generate breakpoint trap</td>
 	</tr>
 	<tr>
 		<td>0xad</td>
 		<td>callkd</td>
-		<td><span class="abi abi-winnt">Windows NT AXP</span></td>
+		<td><span class="abi abi-winnt">WinNT</span></td>
 		<td>Call kernel debugger</td>
 	</tr>
 	<tr>
 		<td>0xae</td>
 		<td>clrfen</td>
 		<td><span class="abi abi-osf1">OSF/1</span></td>
+		<td>Clear floating-point enable</td>
+	</tr>
+	<tr>
+		<td>0xbe</td>
+		<td>nphalt</td>
+		<td><span class="abi abi-osf1">OSF/1</span></td>
 		<td></td>
 	</tr>
+	<tr>
+		<td>0xbf</td>
+		<td>copypal</td>
+		<td><span class="abi abi-osf1">OSF/1</span></td>
+		<td></td>
+	</tr>
+
+
 </table>
 
 </body>
