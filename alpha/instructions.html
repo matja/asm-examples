@@ -186,16 +186,16 @@ background-color: #48c;
 		<td>0</td>
 		<td colspan="3">function</td>
 		<td>Rc</td>
-		<td>ALU operation</td>
+		<td>operate format / integer register</td>
 	</tr>
 	<tr>
 		<td>opcode</td>
 		<td>Ra</td>
-		<td colspan="2">immediate</td>
+		<td colspan="2">literal</td>
 		<td>1</td>
 		<td colspan="3">function</td>
 		<td>Rc</td>
-		<td>ALU/Memory operation</td>
+		<td>operate format / integer literal</td>
 	</tr>
 	<tr>
 		<td>opcode</td>
@@ -206,20 +206,20 @@ background-color: #48c;
 		<td>size</td>
 		<td>function</td>
 		<td>Fc</td>
-		<td>Floating-point operation</td>
+		<td>operate format / floating-point</td>
 	</tr>
 	<tr>
 		<td>opcode</td>
 		<td>Ra</td>
 		<td colspan="7">displacement</td>
-		<td>PC-relative operation</td>
+		<td>branch format</td>
 	</tr>
 	<tr>
 		<td>opcode</td>
 		<td>Ra</td>
 		<td>Rb</td>
 		<td colspan="6">displacement</td>
-		<td>Register-relative operation</td>
+		<td>memory format</td>
 	</tr>
 </table>
 
@@ -876,10 +876,10 @@ background-color: #48c;
 		<td><span class="mnemonic">itof<span class="operand">size2</span>/<span class="operand">round</span><span class="operand">trap</span> <span class="operand">Ra</span>,<span class="operand">Fc</span></span> <span class="ext ext-fix">FIX</span></td>
 	</tr>
 	<tr>
-		<td rowspan="5" colspan="6" class="reserved"></td>
+		<td rowspan="6" colspan="6" class="reserved"></td>
 		<td>0101</td>
-		<td rowspan="5" class="reserved"></td>
-		<td rowspan="5" class="reserved">reserved</td>
+		<td rowspan="6" class="reserved"></td>
+		<td rowspan="6" class="reserved">reserved</td>
 	</tr>
 	<tr>
 		<td>0110</td>
@@ -894,23 +894,23 @@ background-color: #48c;
 		<td>1001</td>
 	</tr>
 	<tr>
+		<td>1010</td>
+	</tr>
+	<tr>
 		<td>11111</td>
 		<td>Fb</td>
 		<td>trap</td>
 		<td colspan="2">round</td>
 		<td>size2</td>
-		<td>1010</td>
+		<td>1011</td>
 		<td>Fc</td>
 		<td><span class="mnemonic">sqrt<span class="operand">size2</span>/<span class="operand">round</span><span class="operand">trap</span> <span class="operand">Fb</span>,<span class="operand">Fc</span></span> <span class="ext ext-fix">FIX</span></td>
 	</tr>
 	<tr>
 		<td rowspan="5" colspan="6" class="reserved"></td>
-		<td>1011</td>
+		<td>1100</td>
 		<td rowspan="5" class="reserved"></td>
 		<td rowspan="5" class="reserved">reserved</td>
-	</tr>
-	<tr>
-		<td>1100</td>
 	</tr>
 	<tr>
 		<td>1101</td>
@@ -1490,11 +1490,11 @@ background-color: #48c;
 		<td>011001</td>
 		<td>Ra</td>
 		<td>11111</td>
-		<td colspan="6">imm</td>
+		<td colspan="6">lit</td>
 		<td>
 			<span class="mnemonic">pal19 <span class="operand">index</span></span>
 			<br/>
-			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">imm</span></span> <span class="arch arch-ev68a">EV68A</span>
+			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev68a">EV68A</span>
 		</td>
 	</tr>
 
@@ -1655,11 +1655,11 @@ background-color: #48c;
 		<td>011101</td>
 		<td>11111</td>
 		<td>Rb</td>
-		<td colspan="6">index / imm</td>
+		<td colspan="6">index / lit</td>
 		<td>
 			<span class="mnemonic">pal1d <span class="operand">index</span></span>
 			<br/>
-			<span class="mnemonic">hw_mtpr <span class="operand">Rb</span>,<span class="operand">imm</span></span> <span class="arch arch-ev68a">EV68A</span>
+			<span class="mnemonic">hw_mtpr <span class="operand">Rb</span>,<span class="operand">lit</span></span> <span class="arch arch-ev68a">EV68A</span>
 		</td>
 	</tr>
 	<tr>
@@ -1948,10 +1948,10 @@ background-color: #48c;
 		</td>
 	</tr>
 	<tr>
-		<td>ldil Rx,imm32</td>
+		<td>ldil Rx,lit32</td>
 		<td>
-			ldah Rx,lowword(imm32)<br/>
-			lda  Rx,highword(imm32)(Rx)<br/>
+			ldah Rx,lowword(lit32)<br/>
+			lda  Rx,highword(lit32)(Rx)<br/>
 		</td>
 	</tr>
 	<tr>
