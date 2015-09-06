@@ -119,6 +119,10 @@ vertical-align: baseline;
 border-radius: 10px;
 }
 
+.arch-ev67 {
+background-color: #48c;
+}
+
 .arch-ev68a {
 background-color: #48c;
 }
@@ -1488,13 +1492,18 @@ background-color: #48c;
 	</tr>
 	<tr>
 		<td>011001</td>
+		<td colspan="8">lit</td>
+		<td>
+			<span class="mnemonic">pal19 <span class="operand">lit</span></span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
 		<td>Ra</td>
 		<td>11111</td>
 		<td colspan="6">lit</td>
 		<td>
-			<span class="mnemonic">pal19 <span class="operand">index</span></span>
-			<br/>
-			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev68a">EV68A</span>
+			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev67">EV67</span>
 		</td>
 	</tr>
 
@@ -1533,8 +1542,32 @@ background-color: #48c;
 	</tr>
 	<tr>
 		<td>011011</td>
-		<td colspan="8">reserved</td>
-		<td><span class="mnemonic">pal1b</span></td>
+		<td colspan="8">lit</td>
+		<td>
+			<span class="mnemonic">pal1b <span class="operand">lit</span></span>
+		</td>
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0000</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0001</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
 	</tr>
 
 	<tr class="group">
@@ -1648,29 +1681,107 @@ background-color: #48c;
 		<td>31..26</td>
 		<td>25..21</td>
 		<td>20..16</td>
-		<td colspan="6">15..0</td>
+		<td colspan="3">15..12</td>
+		<td colspan="3">11..0</td>
+		<td>Instruction</td>
+	</tr>
+	<tr>
+		<td>011101</td>
+		<td colspan="8">lit</td>
+		<td>
+			<span class="mnemonic">pal1d <span class="operand">lit</span></span>
+		</td>
+	</tr>
+	<tr>
+		<td>011101</td>
+		<td>11111</td>
+		<td>Ra</td>
+		<td colspan="6">lit</td>
+		<td>
+			<span class="mnemonic">hw_mtpr	<span class="operand">Ra</span>,<span class="operand">lit</span></span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+	</tr>
+
+
+	<tr>
+		<td>011110</td>
+		<td colspan="8">lit</td>
+		<td>
+			<span class="mnemonic">pal1e <span class="operand">lit</span></span>
+		</td>
+	</tr>
+	<tr>
+		<td>011111</td>
+		<td colspan="8">lit</td>
+		<td>
+			<span class="mnemonic">pal1f <span class="operand">lit</span></span>
+		</td>
+	</tr>
+	<tr>
+		<td>011111</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0000</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_stl/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011111</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0001</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_stq/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+	</tr>
+
+<!--
+	<tr class="group">
+		<td colspan="10">PALcode group</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="2">15..12</td>
+		<td colspan="3">11..0</td>
 		<td>Instruction</td>
 	</tr>
 	<tr>
 		<td>011101</td>
 		<td>11111</td>
 		<td>Rb</td>
-		<td colspan="6">index / lit</td>
-		<td>
+		<td colspan="3">lit</td>
+		<td colspan="2">
 			<span class="mnemonic">pal1d <span class="operand">index</span></span>
 			<br/>
 			<span class="mnemonic">hw_mtpr <span class="operand">Rb</span>,<span class="operand">lit</span></span> <span class="arch arch-ev68a">EV68A</span>
 		</td>
 	</tr>
 	<tr>
-		<td>011110</td>
-		<td colspan="8" rowspan="2">reserved</td>
-		<td><span class="mnemonic">pal1e <span class="operand">index</span></span></td>
-	</tr>
-	<tr>
 		<td>011111</td>
 		<td><span class="mnemonic">pal1f <span class="operand">index</span></span></td>
 	</tr>
+	<tr>
+		<td>011111</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0001</td>
+		<td colspan="3">lit</td>
+		<td>
+			<span class="mnemonic">hw_stl/p	<span class="operand">Ra</span>,<span class="operand">Rb</span>(<span class="operand">lit</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+	</tr>
+-->
+
+
 
 	<tr class="group">
 		<td colspan="10">Floating-point load / store group</td>
