@@ -77,82 +77,91 @@ thead,tr.group {
 }
 
 .ext {
-display: inline-block;
-float:right;
-min-width: 10px;
-padding: 3px 7px;
-font-size: 12px;
-font-weight: 700;
-line-height: 1;
-color: #fff;
-text-align: center;
-white-space: nowrap;
-vertical-align: baseline;
-border-radius: 10px;
+	display: inline-block;
+	float: right;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 10px;
 }
 
 .abi {
-display: inline-block;
-min-width: 10px;
-padding: 3px 7px;
-font-size: 12px;
-font-weight: 700;
-line-height: 1;
-color: #fff;
-text-align: center;
-white-space: nowrap;
-vertical-align: baseline;
-border-radius: 10px;
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 10px;
 }
 
 .arch {
-display: inline-block;
-min-width: 10px;
-padding: 3px 7px;
-font-size: 12px;
-font-weight: 700;
-line-height: 1;
-color: #fff;
-text-align: center;
-white-space: nowrap;
-vertical-align: baseline;
-border-radius: 10px;
+	display: inline-block;
+	float: right;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 10px;
+}
+
+.arch-ev4 {
+	background-color: #48c;
+}
+
+.arch-ev5 {
+	background-color: #48c;
 }
 
 .arch-ev67 {
-background-color: #48c;
+	background-color: #48c;
 }
 
 .arch-ev68a {
-background-color: #48c;
+	background-color: #48c;
 }
 
 .ext-cix {
-background-color: #48c;
+	background-color: #48c;
 }
 
 .ext-mvi {
-background-color: #a44;
+	background-color: #a44;
 }
 
 .ext-fix {
-background-color: #684;
+	background-color: #684;
 }
 
 .ext-bwx {
-background-color: #c82;
+	background-color: #c82;
 }
 
 .abi-winnt {
-background-color: #555;
+	background-color: #555;
 }
 
 .abi-osf1 {
-background-color: #684;
+	background-color: #684;
 }
 
 .abi-openvms {
-background-color: #48c;
+	background-color: #48c;
 }
 		</style>
 	</head>
@@ -1487,7 +1496,9 @@ background-color: #48c;
 		<td>31..26</td>
 		<td>25..21</td>
 		<td>20..16</td>
-		<td colspan="6">15..0</td>
+		<td colspan="2">15..8</td>
+		<td colspan="3">7..5</td>
+		<td>4..0</td>
 		<td>Instruction</td>
 	</tr>
 	<tr>
@@ -1497,16 +1508,109 @@ background-color: #48c;
 			<span class="mnemonic">pal19 <span class="operand">lit</span></span>
 		</td>
 	</tr>
+
+<!--
+011001 00010 00010 | 0001 hw_mfpr hw_mfpr $2,1 21064
+011001 00010 11111 | 0001 hw_mfpr hw_mfpr $2,1 21264
+
+-->
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="3">00000000</td>
+		<td colspan="3">lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
 	<tr>
 		<td>011001</td>
 		<td>Ra</td>
 		<td>11111</td>
-		<td colspan="6">lit</td>
+		<td colspan="3">00000000</td>
+		<td colspan="3">lit</td>
 		<td>
 			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev67">EV67</span>
 		</td>
 	</tr>
-
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">001</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/i <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">010</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/a <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">011</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/ai <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">100</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/p <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">101</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/pi <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">110</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/pa <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
+	<tr>
+		<td>011001</td>
+		<td>Ra</td>
+		<td>Ra</td>
+		<td colspan="2">00000000</td>
+		<td colspan="3">111</td>
+		<td>lit</td>
+		<td>
+			<span class="mnemonic">hw_mfpr/pai <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+		</td>
+	</tr>
 	<tr class="group">
 		<td colspan="10">Unconditional jump</td>
 	</tr>
@@ -1554,9 +1658,10 @@ background-color: #48c;
 		<td colspan="2">0000</td>
 		<td colspan="4">lit</td>
 		<td>
-			<span class="mnemonic">hw_ldl/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="mnemonic">hw_ldl/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
 			<span class="arch arch-ev67">EV67</span>
 		</td>
+		<!-- Longword physical access -->
 	</tr>
 	<tr>
 		<td>011011</td>
@@ -1565,9 +1670,154 @@ background-color: #48c;
 		<td colspan="2">0001</td>
 		<td colspan="4">lit</td>
 		<td>
-			<span class="mnemonic">hw_ldq/p	<span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="mnemonic">hw_ldq/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
 			<span class="arch arch-ev67">EV67</span>
 		</td>
+		<!-- Quadword physical access -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0010</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl_l/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword physical access with lock -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0011</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl_q/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!--  Quadword physical access with lock -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0100</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl/v <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword virtual PTE fetch -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">0101</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq/v <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Quadword virtual PTE fetch -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1000</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword virtual load -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1001</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Quadword virtual load -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1010</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl/w <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword virtual load with protection check -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1011</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq/w <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Quadword virtual load with protection check -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1100</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl/a <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword virtual load with alternate access mode -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1101</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq/a <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Quadword virtual load with alternate access mode -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1100</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldl/wa <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Longword virtual load with alternate access mode and protection check -->
+	</tr>
+	<tr>
+		<td>011011</td>
+		<td>Ra</td>
+		<td>Rb</td>
+		<td colspan="2">1101</td>
+		<td colspan="4">lit</td>
+		<td>
+			<span class="mnemonic">hw_ldq/wa <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev67">EV67</span>
+		</td>
+		<!-- Quadword virtual load with alternate access mode and protection check -->
 	</tr>
 
 	<tr class="group">
