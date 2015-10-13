@@ -2031,26 +2031,38 @@ thead,tr.group {
 		</td>
 	</tr>
 	<tr>
+		<td rowspan="2">011110</td>
+		<td rowspan="2">Ra</td>
+		<td rowspan="2">Rb</td>
+		<td>10</td>
+		<td colspan="5" rowspan="2">00000000000000</td>
+		<td><span class="mnemonic">hw_rei <span class="operand">Ra</span>,(<span class="operand">Rb</span>)</span><span class="arch arch-ev5">EV5</span>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td><span class="mnemonic">hw_rei_stall <span class="operand">Ra</span>,(<span class="operand">Rb</span>)</span><span class="arch arch-ev5">EV5</span>
+	</tr>
+	<tr>
 		<td rowspan="4">011110</td>
 		<td rowspan="4">Ra</td>
 		<td rowspan="4">Rb</td>
 		<td>00</td>
 		<td rowspan="4">stall</td>
 		<td colspan="4" rowspan="4">disp</td>
-		<td><span class="mnemonic">hw_jmp <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>),<span class="operand">stall</span></span><span class="arch arch-ev68c">EV68C</span>
+		<td><span class="mnemonic">hw_jmp/<span class="operand">stall</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span><span class="arch arch-ev68c">EV68C</span>
 	</tr>
 	<tr>
 		<td>01</td>
-		<td><span class="mnemonic">hw_jsr <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>),<span class="operand">stall</span></span><span class="arch arch-ev68c">EV68C</span>
+		<td><span class="mnemonic">hw_jsr/<span class="operand">stall</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span><span class="arch arch-ev68c">EV68C</span>
 	</tr>
 	<tr>
 		<td>10</td>
-		<td><span class="mnemonic">hw_ret <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>),<span class="operand">stall</span></span><span class="arch arch-ev68c">EV68C</span>
+		<td><span class="mnemonic">hw_ret/<span class="operand">stall</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span><span class="arch arch-ev68c">EV68C</span>
 	</tr>
 	<tr>
 		<td>11</td>
 		<td>
-			<span class="mnemonic">hw_coroutine <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>),<span class="operand">stall</span></span><span class="arch arch-ev68c">EV68C</span>
+			<span class="mnemonic">hw_coroutine/<span class="operand">stall</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span><span class="arch arch-ev68c">EV68C</span>
 		</td>
 	</tr>
 
