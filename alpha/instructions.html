@@ -1497,7 +1497,9 @@ thead,tr.group {
 		<td>25..21</td>
 		<td>20..16</td>
 		<td colspan="2">15..8</td>
-		<td colspan="3">7..5</td>
+		<td>7</td>
+		<td>6</td>
+		<td>5</td>
 		<td>4..0</td>
 		<td>Instruction</td>
 	</tr>
@@ -1508,20 +1510,17 @@ thead,tr.group {
 			<span class="mnemonic">pal19 <span class="operand">lit</span></span>
 		</td>
 	</tr>
-
-<!--
-011001 00010 00010 | 0001 hw_mfpr hw_mfpr $2,1 21064
-011001 00010 11111 | 0001 hw_mfpr hw_mfpr $2,1 21264
-
--->
 	<tr>
 		<td>011001</td>
 		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="3">00000000</td>
-		<td colspan="3">lit</td>
+		<td>Rb=Ra</td>
+		<td colspan="2">00000000 (prh?)</td>
+		<td>p</td>
+		<td>a</td>
+		<td>i</td>
+		<td>prl</td>
 		<td>
-			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
+			<span class="mnemonic">hw_mfpr(/<span class="operand">p</span><span class="operand">a</span><span class="operand">i</span>) <span class="operand">Ra</span>,<span class="operand">prl</span></span> <span class="arch arch-ev4">EV4</span>
 		</td>
 	</tr>
 	<tr>
@@ -1532,83 +1531,6 @@ thead,tr.group {
 		<td colspan="3">lit</td>
 		<td>
 			<span class="mnemonic">hw_mfpr <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev67">EV67</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">001</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/i <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">010</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/a <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">011</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/ai <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">100</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/p <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">101</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/pi <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">110</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/pa <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011001</td>
-		<td>Ra</td>
-		<td>Ra</td>
-		<td colspan="2">00000000</td>
-		<td colspan="3">111</td>
-		<td>lit</td>
-		<td>
-			<span class="mnemonic">hw_mfpr/pai <span class="operand">Ra</span>,<span class="operand">lit</span></span> <span class="arch arch-ev4">EV4</span>
 		</td>
 	</tr>
 	<tr class="group">
@@ -1642,8 +1564,18 @@ thead,tr.group {
 	</tr>
 
 	<tr class="group">
-		<td colspan="10">Reserved PALcode group (part 2)</td>
+		<td colspan="10">PALcode group</td>
 	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="3">15..13</td>
+		<td>12</td>
+		<td colspan="2">11..0</td>
+		<td>Instruction</td>
+	</tr>	
+
 	<tr>
 		<td>011011</td>
 		<td colspan="8">lit</td>
@@ -1651,173 +1583,165 @@ thead,tr.group {
 			<span class="mnemonic">pal1b <span class="operand">lit</span></span>
 		</td>
 	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">0000</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
+	<tr class="group">
+		<td colspan="10">
+			<p>EV4 hw_ld</p>
+			<table>
+				<tr>
+					<td>type</td>
+					<td>Mnemonic</td>
+					<td>Description</td>
+				</tr>		
+				<tr>
+					<td>000</td>
+					<td>(none)</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>001</td>
+					<td>/r</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>010</td>
+					<td>/a</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>011</td>
+					<td>/ar</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>100</td>
+					<td>/p</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>101</td>
+					<td>/pr</td>
+					<td>?</td>
+				</tr>
+				<tr>
+					<td>110</td>
+					<td>/pa</td>
+					<td>?</td>
+				</tr>				
+				<tr>
+					<td>111</td>
+					<td>/par</td>
+					<td>?</td>
+				</tr>		
+			</table>
+			<p>
+				<table>
+					<tr>
+						<td>size</td>
+						<td>Mnemonic</td>
+						<td>Description</td>
+					</tr>
+					<tr>
+						<td>0</td>
+						<td>l</td>
+						<td>long-word access (32-bit)</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>q</td>
+						<td>quad-word access (64-bit)</td>
+					</tr>
+				</table>
+			</p>
 		</td>
-		<!-- Longword physical access -->
 	</tr>
 	<tr>
 		<td>011011</td>
 		<td>Ra</td>
 		<td>Rb</td>
-		<td colspan="2">0001</td>
-		<td colspan="4">lit</td>
+		<td colspan="3">type</td>
+		<td>size</td>
+		<td colspan="2">disp</td>
 		<td>
-			<span class="mnemonic">hw_ldq/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
+			<span class="mnemonic">hw_ld<span class="operand">size</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev4">EV4</span>
 		</td>
-		<!-- Quadword physical access -->
+	</tr>
+	<tr class="group">
+		<td colspan="10">
+			<p>EV67 hw_ld</p>
+			<table>
+				<tr>
+					<td>type</td>
+					<td>Mnemonic</td>
+					<td>Description</td>
+				</tr>
+				<tr>
+					<td>000</td>
+					<td>/p</td>
+					<td>physical</td>
+				</tr>
+				<tr>
+					<td>001</td>
+					<td>_l/p</td>
+					<td>physical/lock</td>
+				</tr>
+				<tr>
+					<td>010</td>
+					<td>/v</td>
+					<td>virtual/VPTE</td>
+				</tr>
+				<tr>
+					<td>100</td>
+					<td>(none)</td>
+					<td>virtual</td>
+				</tr>
+				<tr>
+					<td>101</td>
+					<td>/w</td>
+					<td>virtual/WrChk</td>
+				</tr>
+				<tr>
+					<td>110</td>
+					<td>/a</td>
+					<td>virtual/alt - access check uses DTB_ALT_MODE IPR</td>
+				<tr>
+					<td>111</td>
+					<td>/wa</td>
+					<td>virtual/WrChk/Alt</td>
+				</tr>
+			</table>
+			<p>
+				<table>
+					<tr>
+						<td>size</td>
+						<td>Mnemonic</td>
+						<td>Description</td>
+					</tr>
+					<tr>
+						<td>0</td>
+						<td>l</td>
+						<td>long-word access (32-bit)</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>q</td>
+						<td>quad-word access (64-bit)</td>
+					</tr>
+				</table>
+			</p>
+		</td>
 	</tr>
 	<tr>
 		<td>011011</td>
 		<td>Ra</td>
 		<td>Rb</td>
-		<td colspan="2">0010</td>
-		<td colspan="4">lit</td>
+		<td colspan="3">type</td>
+		<td>size</td>
+		<td colspan="2">disp</td>
 		<td>
-			<span class="mnemonic">hw_ldl_l/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
+			<span class="mnemonic">hw_ld<span class="operand">size</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
 			<span class="arch arch-ev67">EV67</span>
 		</td>
-		<!-- Longword physical access with lock -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">0011</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl_q/p <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!--  Quadword physical access with lock -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">0100</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl/v <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Longword virtual PTE fetch -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">0101</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldq/v <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Quadword virtual PTE fetch -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1000</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Longword virtual load -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1001</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldq <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Quadword virtual load -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1010</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl/w <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Longword virtual load with protection check -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1011</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldq/w <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Quadword virtual load with protection check -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1100</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl/a <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Longword virtual load with alternate access mode -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1101</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldq/a <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Quadword virtual load with alternate access mode -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1100</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldl/wa <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Longword virtual load with alternate access mode and protection check -->
-	</tr>
-	<tr>
-		<td>011011</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">1101</td>
-		<td colspan="4">lit</td>
-		<td>
-			<span class="mnemonic">hw_ldq/wa <span class="operand">Ra</span>,<span class="operand">lit</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-		<!-- Quadword virtual load with alternate access mode and protection check -->
 	</tr>
 
 	<tr class="group">
@@ -1990,48 +1914,6 @@ thead,tr.group {
 			<span class="arch arch-ev67">EV67</span>
 		</td>
 	</tr>
-
-<!--
-	<tr class="group">
-		<td colspan="10">PALcode group</td>
-	</tr>
-	<tr class="group">
-		<td>31..26</td>
-		<td>25..21</td>
-		<td>20..16</td>
-		<td colspan="2">15..12</td>
-		<td colspan="3">11..0</td>
-		<td>Instruction</td>
-	</tr>
-	<tr>
-		<td>011101</td>
-		<td>11111</td>
-		<td>Rb</td>
-		<td colspan="3">lit</td>
-		<td colspan="2">
-			<span class="mnemonic">pal1d <span class="operand">index</span></span>
-			<br/>
-			<span class="mnemonic">hw_mtpr <span class="operand">Rb</span>,<span class="operand">lit</span></span> <span class="arch arch-ev68a">EV68A</span>
-		</td>
-	</tr>
-	<tr>
-		<td>011111</td>
-		<td><span class="mnemonic">pal1f <span class="operand">index</span></span></td>
-	</tr>
-	<tr>
-		<td>011111</td>
-		<td>Ra</td>
-		<td>Rb</td>
-		<td colspan="2">0001</td>
-		<td colspan="3">lit</td>
-		<td>
-			<span class="mnemonic">hw_stl/p	<span class="operand">Ra</span>,<span class="operand">Rb</span>(<span class="operand">lit</span>)</span>
-			<span class="arch arch-ev67">EV67</span>
-		</td>
-	</tr>
--->
-
-
 
 	<tr class="group">
 		<td colspan="10">Floating-point load / store group</td>
