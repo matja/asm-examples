@@ -2075,161 +2075,202 @@ thead,tr.group {
 	</tr>
 	<tr class="group">
 		<td colspan="10">
-			<p>EV4 hw_st</p>
 			<table>
-				<tr>
-					<td>type</td>
-					<td>Mnemonic</td>
-					<td>Description</td>
-				</tr>
-				<tr>
-					<td>000</td>
-					<td>(none)</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>001</td>
-					<td>/r</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>010</td>
-					<td>/a</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>011</td>
-					<td>/ar</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>100</td>
-					<td>/p</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>101</td>
-					<td>/pr</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>110</td>
-					<td>/pa</td>
-					<td>?</td>
-				</tr>
-				<tr>
-					<td>111</td>
-					<td>/par</td>
-					<td>?</td>
-				</tr>
-			</table>
-			<p>
-				<table>
+				<thead>
 					<tr>
-						<td>size</td>
+						<td colspan="5">EV5 hw_st field definitions</td>
+					</tr>
+					<tr>
+						<td>Bit</td>
+						<td>Name</td>
+						<td>Value</td>
 						<td>Mnemonic</td>
 						<td>Description</td>
 					</tr>
+				</thead>
+				<tbody>
 					<tr>
+						<td rowspan="2">15</td>
+						<td rowspan="2">phys</td>
+						<td>0</td>
+						<td></td>
+						<td>virtual address</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>/p</td>
+						<td>physical address</td>
+					</tr>
+					<tr>
+						<td rowspan="2">14</td>
+						<td rowspan="2">alt</td>
+						<td>0</td>
+						<td></td>
+						<td>Memory access checks use MTU IPR DTB_CM</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>/a</td>
+						<td>Memory access checks use MTU IPR ALT_MODE</td>
+					</tr>
+					<tr>
+						<td>13</td>
+						<td>MBZ</td>
+						<td>0</td>
+						<td></td>
+						<td>Must be zero</td>
+					</tr>
+					<tr>
+						<td rowspan="2">12</td>
+						<td rowspan="2">quad</td>
 						<td>0</td>
 						<td>l</td>
-						<td>long-word access (32-bit)</td>
+						<td>Length is long-word</td>
 					</tr>
 					<tr>
 						<td>1</td>
 						<td>q</td>
-						<td>quad-word access (64-bit)</td>
+						<td>Length is quad-word</td>
 					</tr>
-				</table>
-			</p>
+					<tr>
+						<td>11</td>
+						<td>MBZ</td>
+						<td>0</td>
+						<td></td>
+						<td>Must be zero</td>
+					</tr>
+					<tr>
+						<td rowspan="2">10</td>
+						<td rowspan="2">cond</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>_c</td>
+						<td>Conditional store - Ra written with LOCK_FLAG</td>
+					</tr>
+				</tbody>
+			</table>
 		</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td>15..14</td>
+		<td>13</td>
+		<td>12</td>
+		<td>11</td>
+		<td>10</td>
+		<td>9..0</td>
+		<td>Instruction</td>
 	</tr>
 	<tr>
 		<td>011111</td>
 		<td>Ra</td>
 		<td>Rb</td>
-		<td colspan="3">type</td>
-		<td>size</td>
-		<td colspan="2">disp</td>
+		<td>type</td>
+		<td>0</td>
+		<td>quad</td>
+		<td>0</td>
+		<td>cond</td>
+		<td>disp</td>
 		<td>
-			<span class="mnemonic">hw_st<span class="operand">size</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
-			<span class="arch arch-ev4">EV4</span>
+			<span class="mnemonic">hw_st<span class="operand">quad</span><span class="operand">cond</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
+			<span class="arch arch-ev5">EV5</span>
 		</td>
 	</tr>
 	<tr class="group">
 		<td colspan="10">
-			<p>EV68C hw_st field definitions</p>
-			<p>
-				<table>
-					<thead>
-						<tr>
-							<td>type</td>
-							<td>Mnemonic</td>
-							<td>Description</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>000</td>
-							<td>/p</td>
-							<td>physical</td>
-						</tr>
-						<tr>
-							<td>001</td>
-							<td>_c/p</td>
-							<td>physical/cond</td>
-						</tr>
-						<tr>
-							<td>010</td>
-							<td>(none)</td>
-							<td>virtual</td>
-						</tr>
-						<tr>
-							<td>110</td>
-							<td>/a</td>
-							<td>virtual/alt - access check uses DTB_ALT_MODE IPR</td>
-						</tr>
-					</tbody>
-				</table>
-			</p>
-			<p>
-				<table>
-					<thead>
-						<tr>
-							<td>type</td>
-							<td>Mnemonic</td>
-							<td>Description</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>0</td>
-							<td>l</td>
-							<td>long-word access (32-bit)</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>q</td>
-							<td>quad-word access (64-bit)</td>
-						</tr>
-					</tbody>
-				</table>
-			</p>
+			<table>
+				<thead>
+					<tr>
+						<td colspan="5">EV68C hw_st field definitions</td>
+					</tr>
+					<tr>
+						<td>Bit</td>
+						<td>Name</td>
+						<td>Value</td>
+						<td>Mnemonic</td>
+						<td>Description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="8">15..13</td>
+						<td rowspan="8">type</td>
+						<td>000</td>
+						<td>/p</td>
+						<td>Physical address</td>
+					</tr>
+					<tr>
+						<td>001</td>
+						<td>_c/p</td>
+						<td>Phsyical address conditional store</td>
+					</tr>
+					<tr>
+						<td>010</td>
+						<td></td>
+						<td>Virtual address</td>
+					</tr>
+					<tr>
+						<td>011</td>
+						<td colspan="2" rowspan="3">Unsupported</td>
+					</tr>
+					<tr>
+						<td>100</td>
+					</tr>
+					<tr>
+						<td>101</td>
+					</tr>
+					<tr>
+						<td>110</td>
+						<td>/a</td>
+						<td>Virtual address with alternate access (DTB_ALT_MODE IPR)</td>
+					</tr>
+					<tr>
+						<td>111</td>
+						<td colspan="2">Unsupported</td>
+					</tr>
+					<tr>
+						<td rowspan="2">12</td>
+						<td rowspan="2">quad</td>
+						<td>0</td>
+						<td>l</td>
+						<td>Length is long-word</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>q</td>
+						<td>Length is quad-word</td>
+					</tr>
+				</tbody>
+			</table>
 		</td>
+	</tr>
+	<tr class="group">
+		<td>31..26</td>
+		<td>25..21</td>
+		<td>20..16</td>
+		<td colspan="2">15..13</td>
+		<td>12</td>
+		<td colspan="3">11..0</td>
+		<td>Instruction</td>
 	</tr>
 	<tr>
 		<td>011111</td>
 		<td>Ra</td>
 		<td>Rb</td>
-		<td colspan="3">type</td>
-		<td>size</td>
-		<td colspan="2">disp</td>
+		<td colspan="2">type</td>
+		<td>quad</td>
+		<td colspan="3">disp</td>
 		<td>
-			<span class="mnemonic">hw_st<span class="operand">size</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
+			<span class="mnemonic">hw_st<span class="operand">quad</span><span class="operand">type</span> <span class="operand">Ra</span>,<span class="operand">disp</span>(<span class="operand">Rb</span>)</span>
 			<span class="arch arch-ev68c">EV68C</span>
 		</td>
 	</tr>
-
 	<tr class="group">
 		<td colspan="10">Floating-point load / store group</td>
 	</tr>
